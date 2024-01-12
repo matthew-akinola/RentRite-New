@@ -4,13 +4,23 @@ import NavBar from './components/common/topnav/NavBar';
 import Home from './pages/home/Home';
 import Buy from './pages/buy/Buy';
 import Footer from './components/common/footer/Footer';
+import SignUp from './pages/authPages/SignUp';
+import { Route, Routes } from 'react-router-dom';
+import AlmostThere from './pages/authPages/AlmostThere';
+import WelcomeBack from './pages/authPages/WelcomeBack';
+import Login from './pages/authPages/Login';
 
 function App() {
   return (
     <>
-      <NavBar/>
-      <Home/>
-      <Footer/>
+      <Routes>
+        {/* authenticaiton routes */}
+        <Route path='/' element={<Home/>}/>
+        <Route path='/register' element={<SignUp/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/progress' element={<AlmostThere/>}/>
+        <Route path='/welcome' element={<WelcomeBack/>}/>
+      </Routes>
     </>
   );
 }

@@ -49,8 +49,8 @@ const NavBar = () => {
             </ul>
 
             <div className='flex gap-2'>
-                <Link to={''}><SecButton name='Log In'/></Link>
-                <Link to={''}><PryButton name='Register'/></Link>
+                <Link to={'/login'}><SecButton name='Log In'/></Link>
+                <Link to={'/register'}><PryButton name='Register'/></Link>
             </div>
         </div>
     </div>

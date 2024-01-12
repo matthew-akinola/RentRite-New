@@ -4,7 +4,7 @@ export const ApartmentCards = ({img, location, price, title, agent, like, type})
   return (
     <div className='w-full space-y-4'>
         <div className='rounded-[18px]'>
-            <img className='rounded-[18px] h-[288px]' src="" alt="" />
+            <img className='rounded-[18px] w-full h-[270px]' src={img} alt="" />
         </div>
         <div className='flex flex-col w-full'>
             <div className='flex w-full justify-between items-center'>

@@ -46,7 +46,7 @@ const BasedOnHistory = () => {
 
 
   return (
-    <div>
+    <div className='container'>
         <HeaderTextSM align={'left'} text={'Properties for Sales "Based on your history"'} />
 
         <div className='flex g'>

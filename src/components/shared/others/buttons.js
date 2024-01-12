@@ -1,8 +1,8 @@
 // import React from 'react'
 
-export const PryButton = ({name}) => {
+export const PryButton = ({name, width}) => {
   return (
-    <button className='bg-primary text-[#E8E7EA] px-[56px] py-[8px]'>{name}</button>
+    <button className={`w-[${width}] bg-primary text-[#E8E7EA] px-[56px] py-[8px]`}>{name}</button>
   )
 }
 
