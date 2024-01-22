@@ -49,7 +49,7 @@ const BasedOnHistory = () => {
     <div className='container'>
         <HeaderTextSM align={'left'} text={'Properties for Sales "Based on your history"'} />
 
-        <div className='flex g'>
+        <div className='flex '>
             <button className='border-b border-3 border-primary py-1'>All</button>
             <button className='border-b border-3 border-primary py-1'>Commercial Properties</button>
             <button className='border-b border-3 border-primary py-1'>Apartments/Flats/Hotels</button>

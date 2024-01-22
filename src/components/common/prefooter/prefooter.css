@@ -1,0 +1,17 @@
+.parent {
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+  .image1 {
+    position: relative;
+    top: 7rem;
+    left: 6.5rem;
+    z-index: 2;
+  }
+  .image2 {
+    position: absolute;
+    top: 0px;
+    right: 0px !important;
+  }
+  

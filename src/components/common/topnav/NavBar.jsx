@@ -1,15 +1,15 @@
 import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { PryButton, SecButton } from '../../shared/others/buttons'
-
+import Logo from "../../../assets/images/Logo.svg";
 const links = [
     {
         name: 'Home',
-        url: ''
+        url: '/'
     },
     {
         name: 'Buy',
-        url: ''
+        url: '/buy'
     },
     {
         name: 'Rent',
@@ -25,11 +25,11 @@ const links = [
     },
     {
         name: 'About Us',
-        url: ''
+        url: '/about'
     },
     {
         name: 'Contact Us',
-        url: ''
+        url: '/contact'
     },
 ]
 
@@ -37,7 +37,7 @@ const NavBar = () => {
   return (
     <div className='w-full py-3 px-8 '>
         <div className='flex justify-between items-center'>
-            <Link to='/'><img src="" alt="jkkk" /></Link>
+            <Link to='/'><img src={Logo} alt="jkkk" /></Link>
 
             <ul className='flex space-x-6'>
                 {

@@ -9,6 +9,8 @@ import { Route, Routes } from 'react-router-dom';
 import AlmostThere from './pages/authPages/AlmostThere';
 import WelcomeBack from './pages/authPages/WelcomeBack';
 import Login from './pages/authPages/Login';
+import About from './pages/about';
+import Contact from './pages/contact';
 
 function App() {
   return (
@@ -20,6 +22,11 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/progress' element={<AlmostThere/>}/>
         <Route path='/welcome' element={<WelcomeBack/>}/>
+
+        {/* landing pages */}
+        <Route path='/buy' element={<Buy/>}/>
+        <Route path='/about' element={<About/>}/>
+        <Route path='/contact' element={<Contact/>}/>
       </Routes>
     </>
   );
