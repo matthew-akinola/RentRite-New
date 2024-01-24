@@ -8,7 +8,7 @@ import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
 import BasedOnHistory from '../../components/home/BasedOnHistory'
 import BasedOnHistory3 from '../../components/home/BasedOnHistory3'
 
-const Buy = () => {
+const Rent = () => {
   const {myData} = useFetchApartment()
   const [data, setData] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
@@ -338,4 +338,4 @@ const Buy = () => {
   )
 }
 
-export default Buy
+export default Rent

@@ -11,6 +11,7 @@ import WelcomeBack from './pages/authPages/WelcomeBack';
 import Login from './pages/authPages/Login';
 import About from './pages/about';
 import Contact from './pages/contact';
+import Rent from './pages/rent/Rent';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
 
         {/* landing pages */}
         <Route path='/buy' element={<Buy/>}/>
+        <Route path='/rent' element={<Rent/>}/>
         <Route path='/about' element={<About/>}/>
         <Route path='/contact' element={<Contact/>}/>
       </Routes>

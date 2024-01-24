@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const url = process.env.BASE_URL ?? 'https://rentrite-homes.up.railway.app';
 
-function usePost (postData){
+function useFetchApartment (postData){
 
     const [myData, setMydata] = useState([]);
     const [isPending, setIsPending] = useState(true)
@@ -39,4 +39,4 @@ function usePost (postData){
     }
 }
 
-export default usePost
+export default useFetchApartment

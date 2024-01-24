@@ -13,7 +13,7 @@ const links = [
     },
     {
         name: 'Rent',
-        url: ''
+        url: '/rent'
     },
     {
         name: 'Consultant',
