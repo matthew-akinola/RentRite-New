@@ -13,7 +13,6 @@ const Rent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
-    console.log(myData)
     setData((myData))
   },[myData])
 
