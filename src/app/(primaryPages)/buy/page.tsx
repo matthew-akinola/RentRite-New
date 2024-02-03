@@ -13,11 +13,9 @@ const Buy = () => {
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
-    console.log(myData)
     setData((myData))
   },[myData])
 
-  console.log(data)
   return (
       <Container>
         <div className='flex w-full gap-10'>
@@ -69,7 +67,6 @@ const Buy = () => {
                     <GridContainer3>
                     {
                       data.slice(0,6)?.map((apt, ind)=>{
-                        console.log(apt)
                         return(
                           <ApartmentCards 
                           key={ind}
