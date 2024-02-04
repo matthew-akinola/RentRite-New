@@ -8,6 +8,7 @@ import PasswordInput from '@/components/shared/inputs/PasswordInput';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { AuthContext } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const Login: React.FC = () => {
 
@@ -19,7 +20,7 @@ const Login: React.FC = () => {
   // const auth = useContext(AuthContext)
   // const login = auth?.handleLogin
   // const [loading, setLoading] = useState<boolean>(false)
-  // const router = useRouter();
+  const router = useRouter();
   const auth = useContext(AuthContext)
   const login = auth.handleLogin
   const [formData, setFormData] = useState({
@@ -65,7 +66,7 @@ const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         setLoading(false);
         toast.success("Login Successful");
         login(access_token, refresh_token, userDetails)
-        // router.push("/login");
+        router.push("/dashboard");
       } else {
         setLoading(false);
         toast.error("Login Unsuccessful");
