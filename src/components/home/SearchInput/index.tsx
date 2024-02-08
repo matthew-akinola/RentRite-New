@@ -1,6 +1,6 @@
 "use client"
 import Dropdown from "@/components/shared/dropDown";
-import { ApartmentApi } from "@/hooks/ApartmentApi";
+import { useFetchApartment } from "@/hooks/useFetchApartment";
 import React, { useState, FormEvent } from "react";
 import { FaSearch } from "react-icons/fa";
 
@@ -23,7 +23,7 @@ const SearchForm: React.FC = () => {
   const [smin, setSmin] = useState<boolean>(false);
   const [smax, setSmax] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<Apartment[]>([]);
-  const apartmentsApi = ApartmentApi();
+  const apartmentsApi = useFetchApartment();
 
   const typeList: string[] = [
     "All Types",

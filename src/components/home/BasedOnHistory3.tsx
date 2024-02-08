@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { HeaderTextSM } from '../shared/typographs/Typo'
-import useFetchApartment from '../../hooks/fetchApartment'
+import useFetchApartment from '../../hooks/useFetchApartment'
 import { Container, GridContainer3, GridContainer4 } from '../shared/containers/container'
 import ApartmentCards from '../shared/others/cards'
 

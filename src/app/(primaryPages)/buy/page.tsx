@@ -5,11 +5,12 @@ import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
 import ApartmentCards from '@/components/shared/others/cards';
 import { Container, GridContainer3 } from '@/components/shared/containers/container';
-import useFetchApartment from '@/hooks/fetchApartment';
+import {useFetchApartment} from '@/hooks/useFetchApartment';
+import { DynamicObject } from '@/types';
 
 const Buy = () => {
   const {myData} = useFetchApartment()
-  const [data, setData] = useState([])
+  const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
