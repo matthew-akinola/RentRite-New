@@ -1,23 +1,32 @@
+'use client'
+
 import React from 'react'
 import Link from 'next/link'
 import { GridContainer3 } from '@/components/shared/containers/container'
 import Card from '@/components/blog/card'
+import ReadMore from '@/components/blog/readMore/ReadMore'
+import BecomeASeller from '@/components/blog/becomeASeller/BecomeASeller'
+import {usePathname} from 'next/navigation';
 
 const Spotlight = () => {
+
+    const pathname = usePathname()
+    console.log(pathname)
+    
   return <div className=''>
     <nav className='bg-[#140014] h-[95px] px-8'> 
         <ul className='flex flex-row h-full pt-5'>
-            <li  className='text-white mr-5 mt-5  hover:border-b-2 h-fit pb-2'
+            <li  className={`text-white mr-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/spotlight' ? 'border-b-2 border-b-[#79007B]' : ''} `}
             >
                 <Link href="" >Spotlight</Link>
             </li>
-            <li className='text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2'>
+            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/buying&selling' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
                 <Link href="" >Buying & Selling</Link>
             </li>
-            <li className='text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2'>
+            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/renting' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
                 <Link href="" >Renting</Link>
             </li>
-            <li className='text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2'>
+            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/tips&advice' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
                 <Link href="" >Tips & Advice</Link>
             </li>
         </ul>
@@ -41,6 +50,14 @@ const Spotlight = () => {
                 <Card card={{'thumbnail':'/images/featuredBlogTwo.png', 'tittle': 'Letter from our CEO', 'text':'Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.', 'url':''}} />
             </GridContainer3>
         </div>
+    </section>
+
+    <section className='bg-white pt-16 px-8'>
+        <h2 className='text-[#161518] text-2xl font-bold border-b-2 border-b-[#E4CCE5] pb-3 '>Read More</h2>
+        <ReadMore />
+    </section>
+    <section className='h-[326px] px-8'>
+        <BecomeASeller />
     </section>
   </div>
   
