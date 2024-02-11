@@ -1,41 +1,26 @@
 import React, { useState } from 'react'
+import ReactPaginate from 'react-paginate';
+import { readMore } from '../../../data/data'
 
-
-interface ReadMoreInterface {
-  imgUrl: string,
-  tittle: string,
-  date: string,
-  text: string
-} 
 
 const ReadMore = () => {
-  const readMoreList:ReadMoreInterface[] = [
-    {
-      imgUrl : '/images/ReadMoreBlog.png',
-      tittle : 'How to be a home owner via Rentrite in 2023',
-      date : 'Dec 23rd, 2022',
-      text : 'Becoming an home owner is still a possibility in 2023. It is now easier now than ever to own a home and all you have to do is follow the steps we will be giving in this guide. So get your mind prepared, your pockets stacked and be excited as we speak on how you can be a home owner in 2023 without breaking the bank!'
-    },
-    {
-      imgUrl : '/images/ReadMoreBlog.png',
-      tittle : 'How to be a home owner via Rentrite in 2023',
-      date : 'Dec 23rd, 2022',
-      text : 'Becoming an home owner is still a possibility in 2023. It is now easier now than ever to own a home and all you have to do is follow the steps we will be giving in this guide. So get your mind prepared, your pockets stacked and be excited as we speak on how you can be a home owner in 2023 without breaking the bank!'
-    },
-    {
-      imgUrl : '/images/ReadMoreBlog.png',
-      tittle : 'How to be a home owner via Rentrite in 2023',
-      date : 'Dec 23rd, 2022',
-      text : 'Becoming an home owner is still a possibility in 2023. It is now easier now than ever to own a home and all you have to do is follow the steps we will be giving in this guide. So get your mind prepared, your pockets stacked and be excited as we speak on how you can be a home owner in 2023 without breaking the bank!'
-    },
-    {
-      imgUrl : '/images/ReadMoreBlog.png',
-      tittle : 'How to be a home owner via Rentrite in 2023',
-      date : 'Dec 23rd, 2022',
-      text : 'Becoming an home owner is still a possibility in 2023. It is now easier now than ever to own a home and all you have to do is follow the steps we will be giving in this guide. So get your mind prepared, your pockets stacked and be excited as we speak on how you can be a home owner in 2023 without breaking the bank!'
-    }
+  const readMoreList = readMore
+      
+      const itemsPerPage:number = 4;
+      const [itemOffset, setItemOffset] = useState<number>(0);
 
-  ]
+      const endOffset = itemOffset + itemsPerPage;
+      const currentItems = readMoreList.slice(itemOffset, endOffset);
+      const pageCount:number = Math.ceil(readMoreList.length / itemsPerPage);
+
+      // Invoke when user click to request another page.
+      const handlePageClick = (event:any) => {
+        const newOffset = (event.selected * itemsPerPage) % readMoreList.length;
+        setItemOffset(newOffset);
+      }
+
+
+
   return (
     <div className='relative'>
     <div className='hidden xl:block w-[316px] h-[437px] border absolute z-10 right-[0px]'> 
@@ -83,8 +68,8 @@ const ReadMore = () => {
                 </form>
     </div>
     
-      {readMoreList.map((readMore, index)=>
-              <div className='mt-3'>
+    {currentItems.map((readMore, index)=>
+              <div className='mt-3' key={index}>
                 <div className='flex flex-row my-10'>
                     <img className='rounded' src={readMore.imgUrl} alt="" />
                     <div className='ml-6 h-[100%] my-auto max-w-[600px]'>
@@ -96,10 +81,22 @@ const ReadMore = () => {
               </div>
         )}
 <div className='py-20'>
-  
-          <div className='py-2 w-[80px] mx-auto overflow-x-scroll'>
-              <a href="" className="px-2">1</a><a href="" className="px-2">2</a><a href="" className="px-2">3</a><a href="" className="px-2">4</a><a href="" className="px-2">5</a><a href="" className="px-2">6</a><a href="" className="px-2">7</a><a href="" className="px-2">8</a><a href="" className="px-2">9</a><a href="" className="px-2">10</a><a href="" className="px-2">11</a><a href="" className="px-2">12</a>
-          </div>
+
+         <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              containerClassName='flex flex-row justify-center'
+              pageClassName='px-3 py-1 mx-2 rounded-full'
+              activeClassName='text-primary border border-primary'
+              nextClassName='border px-3 pt-1 bg-primary text-white'
+              previousClassName='border px-3 pt-1 bg-primary text-white'
+              disabledClassName='bg-white text-[#000]'
+          />
 </div>
     </div>
   )
