@@ -6,17 +6,18 @@ import { GridContainer3 } from '@/components/shared/containers/container'
 import Card from '@/components/blog/card'
 import ReadMore from '@/components/blog/readMore/ReadMore'
 import BecomeASeller from '@/components/blog/becomeASeller/BecomeASeller'
+import {usePathname} from 'next/navigation';
 import BlogNav from '@/components/blog/BlogNav'
 
-const Spotlight = () => {
+const Tips = () => {
     
   return <div className=''>
-    <BlogNav />
+   <BlogNav />
     {/* hero component */}
-    <div className='h-[515px] w-full relative flex text-center'><img src="/images/spotlight_bg.png" alt="spotlight hero image" className='relative  w-full'/>
+    <div className='h-[515px] w-full relative flex text-center'><img src="/images/tipsBlog.png" alt="tips&sadvice hero image" className='relative  w-full'/>
         <div className='absolute z-10 self-center w-full' >
-            <div className='text-[#FBFBFC] text-[88px] pt-0'>Spotlight</div>
-            <div className='text-[#FDE68A] text-2xl'>Let us guide your real estate journey</div>
+            <div className='text-[#FBFBFC] text-[88px] pt-0'>Tips & Advice</div>
+            <div className='text-[#FDE68A] text-2xl max-w-[643px] mx-auto'>Set up your home, what to do with land, colour matching etc. Drop in, and gain some wisdom</div>
         </div>
     </div>
     {/* featured section */}
@@ -44,4 +45,4 @@ const Spotlight = () => {
   
 }
 
-export default Spotlight;
+export default Tips;

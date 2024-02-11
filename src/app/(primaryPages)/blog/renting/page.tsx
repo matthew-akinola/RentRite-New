@@ -6,17 +6,17 @@ import { GridContainer3 } from '@/components/shared/containers/container'
 import Card from '@/components/blog/card'
 import ReadMore from '@/components/blog/readMore/ReadMore'
 import BecomeASeller from '@/components/blog/becomeASeller/BecomeASeller'
+import {usePathname} from 'next/navigation';
 import BlogNav from '@/components/blog/BlogNav'
 
-const Spotlight = () => {
-    
+const Renting = () => {
   return <div className=''>
     <BlogNav />
     {/* hero component */}
-    <div className='h-[515px] w-full relative flex text-center'><img src="/images/spotlight_bg.png" alt="spotlight hero image" className='relative  w-full'/>
+    <div className='h-[515px] w-full relative flex text-center'><img src="/images/rentingBlog.png" alt="renting hero image" className='relative  w-full'/>
         <div className='absolute z-10 self-center w-full' >
-            <div className='text-[#FBFBFC] text-[88px] pt-0'>Spotlight</div>
-            <div className='text-[#FDE68A] text-2xl'>Let us guide your real estate journey</div>
+            <div className='text-[#FBFBFC] text-[88px] pt-0'>Renting</div>
+            <div className='text-[#FDE68A] text-2xl max-w-[500px] mx-auto'>Get the best deals when renting, be it event centers, house, land, shops etc</div>
         </div>
     </div>
     {/* featured section */}
@@ -44,4 +44,4 @@ const Spotlight = () => {
   
 }
 
-export default Spotlight;
+export default Renting;
