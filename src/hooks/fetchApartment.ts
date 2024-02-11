@@ -14,8 +14,9 @@ function useFetchApartment (){
           try {
             const res = await axios.get(`${url}/apartment/`);
             if (res) { 
+              console.log(res)
               const dataArray = res?.data;
-              console.log(typeof res?.data)
+              console.log(dataArray)
               setMydata(dataArray);
               setIsPending(false)
               setIsError(null)             
