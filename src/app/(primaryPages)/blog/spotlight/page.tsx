@@ -6,31 +6,12 @@ import { GridContainer3 } from '@/components/shared/containers/container'
 import Card from '@/components/blog/card'
 import ReadMore from '@/components/blog/readMore/ReadMore'
 import BecomeASeller from '@/components/blog/becomeASeller/BecomeASeller'
-import {usePathname} from 'next/navigation';
+import BlogNav from '@/components/blog/BlogNav'
 
 const Spotlight = () => {
-
-    const pathname = usePathname()
-    console.log(pathname)
     
   return <div className=''>
-    <nav className='bg-[#140014] h-[95px] px-8'> 
-        <ul className='flex flex-row h-full pt-5'>
-            <li  className={`text-white mr-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/spotlight' ? 'border-b-2 border-b-[#79007B]' : ''} `}
-            >
-                <Link href="" >Spotlight</Link>
-            </li>
-            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/buying&selling' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
-                <Link href="" >Buying & Selling</Link>
-            </li>
-            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/renting' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
-                <Link href="" >Renting</Link>
-            </li>
-            <li className={`text-white mx-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/tips&advice' ? 'border-b-2 border-b-[#79007B]' : ''} `}>
-                <Link href="" >Tips & Advice</Link>
-            </li>
-        </ul>
-    </nav>
+    <BlogNav />
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/spotlight_bg.png" alt="spotlight hero image" className='relative  w-full'/>
         <div className='absolute z-10 self-center w-full' >
