@@ -14,7 +14,7 @@ const Form = () => {
    
    }
    const handleChange = ()=>{
-    if (uploadNameRef.current && uploadImageRef.current){
+    if (uploadNameRef.current && uploadImageRef.current?.files){
       uploadNameRef.current.value = uploadImageRef.current.files[0].name
     }
 
