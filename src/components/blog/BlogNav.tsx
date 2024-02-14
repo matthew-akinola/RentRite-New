@@ -5,10 +5,9 @@ import React from 'react'
 const BlogNav = () => {
 
     const pathname = usePathname()
-    console.log(pathname)
     
   return (
-    <nav className='bg-[#140014] h-[95px] px-8'> 
+    <nav className='bg-[#140014] h-[95px] px-8 hidden sm:block'> 
     <ul className='flex flex-row h-full pt-5'>
         <li  className={`text-white mr-5 mt-5 hover:border-b-2 h-fit pb-2 ${pathname === '/blog/spotlight' ? 'border-b-2 border-b-[#79007B]' : ''} `}
         >

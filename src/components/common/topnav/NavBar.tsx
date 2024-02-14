@@ -40,30 +40,29 @@ const links: NavLinkItem[] = [
 
 const NavBar: React.FC = () => {
     return (
-        <div className='w-full py-3 px-8 '>
-            <div className='flex justify-between items-center'>
-                <Link href='/'>
-                    <img src={"/logo.svg"} alt="jkkk" />
-                </Link>
-
-                <ul className='flex space-x-6'>
-                    {links?.map((item, index) => (
-                        <Link key={index} href={item.url} className='active'>
-                            {item.name}
+            <div className='w-full py-3 px-8 '>
+                <div className='flex justify-between items-center'>
+                    <Link href='/'>
+                        <img src={"/logo.svg"} alt="jkkk" />
+                    </Link>
+                    <ul className='flex space-x-6'>
+                        {links?.map((item, index) => (
+                            <Link key={index} href={item.url} className='active'>
+                                {item.name}
+                            </Link>
+                        ))}
+                    </ul>
+                    <div className='flex gap-2'>
+                        <Link href='/login'>
+                            <SecButton name='Log In' />
                         </Link>
-                    ))}
-                </ul>
-
-                <div className='flex gap-2'>
-                    <Link href='/login'>
-                        <SecButton name='Log In' />
-                    </Link>
-                    <Link href='/register'>
-                        <PryButton name='Register' />
-                    </Link>
+                        <Link href='/register'>
+                            <PryButton name='Register' />
+                        </Link>
+                    </div>
                 </div>
             </div>
-        </div>
+           
     );
 };
 
