@@ -1,6 +1,6 @@
 "use client"
 import { Fragment, useState } from "react";
-import { ApartmentApi } from "@/hooks/ApartmentApi";
+import { useFetchApartment } from "@/hooks/useFetchApartment";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -8,9 +8,10 @@ import EasilyNav from "@/components/home/EasilyNav";
 import ProperityForSale from "@/components/home/ProperityForSale";
 import Hero from "@/components/home/Hero";
 import { data } from "@/components/home/data";
+import GetStarted from "@/components/common/footer/getStart";
 
 const Home = () => {
-  const apartmentsApi = ApartmentApi();
+  const {myData: fetchedApartments, isError, isPending,} = useFetchApartment();
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [apartmentsToShow, setApartmentsToShow] = useState(8);
 
@@ -20,8 +21,8 @@ const Home = () => {
     setApartmentsToShow(8);
   };
 
-  const subMenu = ["All", ...Array.from(new Set(apartmentsApi.map((apartment) => apartment.category)))];
-  const filteredApartments = apartmentsApi.filter(
+  const subMenu = ["All", ...Array.from(new Set(fetchedApartments.map((apartment) => apartment.category)))];
+  const filteredApartments = fetchedApartments.filter(
     (apartment) => selectedCategory === "All" || apartment.category === selectedCategory
   );
   const apartments = filteredApartments.slice(0, apartmentsToShow);
@@ -89,9 +90,9 @@ const Home = () => {
               <button
                 key={category}
                 className={`px-2 md:px-5 pb-2 transition duration-500 ${
-                  ((filteredApartments !== apartmentsApi &&
+                  ((filteredApartments !== fetchedApartments &&
                     category === selectedCategory) ||
-                    (filteredApartments === apartmentsApi && category === "All")) &&
+                    (filteredApartments === fetchedApartments && category === "All")) &&
                   "border-b-4 border-indigo-200 border-b-primary"
                 }`}
                 onClick={() => handleCategoryClick(category)}
@@ -213,46 +214,7 @@ const Home = () => {
       </section>
           
       {/* get started section*/}
-      <section className="bg-[#F7F7F7] p-8 md:p-20 relative">
-      <Image
-        src={'/images/footerImg1.png'}
-        alt="house illustration absolute bottom-0"
-        className="hidden md:inline absolute bottom-0 left-[16.5rem] z-0"
-        width={300}
-        height={300}
-      />
-      <Image 
-        className="absolute bottom-0 md:bottom-14 lg:bottom-28 right-0 lg:right-20 z-10 w-[5.5rem]" 
-        src={'/images/footerframe2.png'} alt="" 
-        width={200}
-        height={200}
-      />{" "}
-      <img
-        className="hidden md:inline absolute bottom-0 right-0 w-[13rem] h-[13rem] z-0"
-        src={"/images/footerImg2.png"}
-        alt=""
-        width={200}
-        height={200}
-      />
-      <div className="flex flex-col gap-8">
-        <header className="">
-          <h1 className="text-4xl font-bold text-[#161518] mb-[0.65rem]  z-20">
-            Get the Best Deal for Your Property
-          </h1>
-          <p className="text-[#2b2a30] text-xl  z-20">
-            Maximize your profit with us, sell with confidence, grow your
-            reputation
-          </p>
-        </header>
-        <Link href="/agent-signup">
-          <button className="py-4 px-14 bg-[#79007B] items-center shadow text-white rounded-lg z-10">
-            Be a seller
-          </button>
-        </Link>
-      </div>
-      <div></div>
-    
-    </section>
+      <GetStarted/>
     </div>
   );
 };

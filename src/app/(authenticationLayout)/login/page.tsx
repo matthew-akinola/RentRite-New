@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 
 const Login: React.FC = () => {
 
-  const BaseURL = process.env.BASE_URL ?? "https://rentrite-homes.up.railway.app";
-  const endpoint = process.env.BASE_URL ?? "/accounts/login/";
+  const BaseURL = process.env.BASE_URL;
+  const endpoint = "/accounts/login/";
   const url = BaseURL + endpoint;
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState<boolean>(false);

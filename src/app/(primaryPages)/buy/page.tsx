@@ -3,17 +3,21 @@ import React, { useEffect, useState } from 'react'
 // import MainLayout from '../../layouts/MainLayout'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import ApartmentCards from '@/components/shared/others/cards';
-import { Container, GridContainer3 } from '@/components/shared/containers/container';
-import useFetchApartment from '@/hooks/fetchApartment';
+import {ApartmentCards, ApartmentSlide} from '@/components/shared/others/cards';
+import { Container, GridContainer1, GridContainer3 } from '@/components/shared/containers/container';
+import {useFetchApartment} from '@/hooks/useFetchApartment';
+import { DynamicObject } from '@/types';
+import { BsFillGridFill } from "react-icons/bs";
 
 const Buy = () => {
   const {myData} = useFetchApartment()
-  const [data, setData] = useState([])
+  const [layout, setLayout] = useState('grid')
+  const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
     setData((myData))
+    console.log(data)
   },[myData])
 
   return (
@@ -55,15 +59,17 @@ const Buy = () => {
             {/* <button className="cursor-pointer">
               <FaBars size={23} />
             </button> */}
-                <div>
-                  <button>grid</button>
-                  <button>layout</button>
+                <div className='space-x-4'>
+                  <button onClick={()=>setLayout('grid')}><BsFillGridFill color='#A655A7' size={25}/></button>
+                  <button onClick={()=>setLayout('slide')}><FaBars size={25}/></button>
                 </div>
               </div>
 
               <div className=''>
                 {
                   data.length > 0?
+                  (layout === 'grid'?
+
                     <GridContainer3>
                     {
                       data.slice(0,6)?.map((apt, ind)=>{
@@ -77,12 +83,38 @@ const Buy = () => {
                           like={apt.like}
                           type={apt.category}
                           agent={apt.agent.name}
+                          url_id={apt.id}
                         />
                         )
                       }
                           
                       )}
                     </GridContainer3>
+                    :
+                    <GridContainer1>
+                    {
+                      data.slice(0,6)?.map((apt, ind)=>{
+                        return(
+                          <ApartmentSlide 
+                          key={ind}
+                          img={apt.pictures[0]?.image}
+                          location={apt.short_address}
+                          price={apt.f_price}
+                          title={apt.title}
+                          like={apt.like}
+                          type={apt.category}
+                          agent={apt.agent.name}
+                          desc={apt.description}
+                          toilet={apt.specifications.toilets}
+                          bathroom={apt.specifications.bathrooms}
+                          bedroom={apt.specifications.bedrooms}
+                        />
+                        )
+                      }
+                          
+                      )}
+                    </GridContainer1>                   
+                    )
                   :
 
                   <h1>Loading Apartments....</h1>

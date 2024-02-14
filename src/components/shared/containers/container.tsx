@@ -16,6 +16,13 @@ interface GridContainerProps {
   children: ReactNode;
 }
 
+export const GridContainer1: React.FC<GridContainerProps> = ({ children }) => {
+  return (
+    <div className="grid grid-cols-1 gap-[2rem]">
+      {children}
+    </div>
+  );
+};
 export const GridContainer3: React.FC<GridContainerProps> = ({ children }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[2rem]">
@@ -31,3 +38,12 @@ export const GridContainer4: React.FC<GridContainerProps> = ({ children }) => {
     </div>
   );
 };
+export const GridContainer5: React.FC<GridContainerProps> = ({ children }) => {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+      {children}
+    </div>
+  );
+};
+
+// export const SlideSContainer 
