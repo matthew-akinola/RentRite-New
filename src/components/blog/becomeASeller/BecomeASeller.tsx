@@ -3,15 +3,15 @@ import React from 'react'
 const BecomeASeller = () => {
   return (
     <div className='h-full flex'>
-      <div className=' mt-auto h-fit w-fit '>
+      <div className=' mt-auto h-fit w-fit min-w-[200px] '>
         <h2 className='font-bold text-[#161518] text-[34px]'>Get the Best Deal for Your Property</h2>
-        <p className='mt-2 text-[22px] font-normal'>Maximize your profit with us, sell with confidence, grow your reputation</p>
+        <p className='mt-2 text-[22px] font-normal text-[#2B2A30]'>Maximize your profit with us, sell with confidence, grow your reputation</p>
         <div className='flex mt-2'>
           <div className='mt-3'><button className=' text-white bg-[#79007B] rounded-lg px-14 py-4'>Become a seller</button></div>
-          <div className='-mb-[7px]'><span className="inline-flex w-[274px] h-[138px] bg-[url('/images/footerImg1.png')]"></span></div>
+          <div className='hidden sm:block -mb-[7px]'><span className="inline-flex w-[274px] h-[138px] bg-[url('/images/footerImg1.png')]"></span></div>
         </div>
       </div>
-      <div className="ml-auto flex flex-col justify-end">
+      <div className="ml-auto hidden md:flex flex-col justify-end">
         <div className='-mb-9 ml-4 relative z-10'>
           <span className="inline-block  bg-[url('/images/footerframe2.png')] w-[138px] h-[136px]"></span>
         </div>

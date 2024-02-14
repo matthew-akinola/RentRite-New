@@ -15,8 +15,8 @@ const Buying = () => {
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/buyingBlog.png" alt="buying&selling hero image" className='relative  w-full'/>
         <div className='absolute z-10 self-center w-full' >
-            <div className='text-[#FBFBFC] text-[88px] pt-0'>Buying & Selling</div>
-            <div className='text-[#FDE68A] text-2xl max-w-[500px] mx-auto'>Understand how to negotiate, get the best deals and secure a great deal.</div>
+            <div className='text-[#FBFBFC] text-[65px] sm:text-[88px] pt-0'>Buying & Selling</div>
+            <div className='text-[#FDE68A] text-xl sm:text-2xl max-w-[500px] mx-auto'>Understand how to negotiate, get the best deals and secure a great deal.</div>
         </div>
     </div>
     {/* featured section */}
@@ -37,7 +37,7 @@ const Buying = () => {
         <h2 className='text-[#161518] text-2xl font-bold border-b-2 border-b-[#E4CCE5] pb-3 '>Read More</h2>
         <ReadMore />
     </section>
-    <section className='h-[326px] px-8'>
+    <section className='h-[326px] px-8 bg-[#F7F7F7] mb-14 sm:mb-0'>
         <BecomeASeller />
     </section>
   </div>
