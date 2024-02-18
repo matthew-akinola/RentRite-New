@@ -23,7 +23,7 @@ const Buy = () => {
   return (
       <Container>
         <div className='flex w-full gap-10'>
-          <div className='basis-9/12'>
+          <div className=' w-full lg:w-9/12'>
             {/* active tab */}
             <div className='space-x-4'>
               <span>BUY</span>
@@ -52,14 +52,14 @@ const Buy = () => {
             {/* Appartment container */}
             <div>
               <div className='flex justify-between items-center'>
-              <h1 className="text-2xl font-bold text-[#161518] mb-7">
+              <h1 className="text-lg md:text-2xl font-bold text-[#161518] mb-7">
               Properties for <span className="text-[#A655A7] ">Rent</span> in
               “Nigeria”
             </h1>
             {/* <button className="cursor-pointer">
               <FaBars size={23} />
             </button> */}
-                <div className='space-x-4'>
+                <div className='hidden md:block space-x-4'>
                   <button onClick={()=>setLayout('grid')}><BsFillGridFill color='#A655A7' size={25}/></button>
                   <button onClick={()=>setLayout('slide')}><FaBars size={25}/></button>
                 </div>
@@ -131,7 +131,7 @@ const Buy = () => {
             {/* paginator */}
             <div></div>
           </div>    
-          <div className="basis-3/12">
+          <div className=" hidden lg:block w-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />

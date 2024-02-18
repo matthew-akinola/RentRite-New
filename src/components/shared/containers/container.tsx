@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container: React.FC<ContainerProps> = ({ children }) => {
   return (
-    <div className="px-[3rem]">
+    <div className="px-[1rem] md:px-[3rem]">
       {children}
     </div>
   );
