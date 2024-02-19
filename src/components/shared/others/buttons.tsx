@@ -3,10 +3,11 @@
 interface iPryButton {
   name: string,
   width?: string
+  type?:"submit" | "reset" | "button" | undefined
 }
-export const PryButton:React.FC<iPryButton> = ({name, width} ) => {
+export const PryButton:React.FC<iPryButton> = ({name, width, type} ) => {
   return (
-    <button className={`w-[${width}] bg-primary text-[#E8E7EA] px-[56px] py-[8px]`}>{name}</button>
+    <button type={type} className={`w-[${width}] bg-primary text-[#E8E7EA] px-[56px] py-[8px] rounded-lg w-full`}>{name}</button>
   )
 }
 

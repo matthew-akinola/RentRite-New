@@ -67,7 +67,7 @@ const Rent = () => {
                   data.length > 0?
                     <GridContainer3>
                     {
-                      data.slice(0,6)?.map((apt, ind)=>
+                      data.slice(0,6)?.map((apt:any, ind:any)=>
                           <ApartmentCards 
                           key={ind}
                           img={apt.pictures[0]?.image}

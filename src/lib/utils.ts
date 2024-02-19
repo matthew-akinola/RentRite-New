@@ -1,5 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import Payment from "payment";
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -18,60 +20,59 @@ export const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>, setVal
   setIsValidated(validateEmail(emailValue));
 };
 
+function clearNumber(value: string = ""): string {
+  return value.replace(/\D+/g, "");
+}
 
-
-function detectCardType(cardNumber: string): string {
-  const patterns: Record<string, RegExp> = {
-    visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-    mastercard: /^5[1-5][0-9]{14}$/,
-  };
-
-  for (const cardType in patterns) {
-    if (patterns[cardType].test(cardNumber)) {
-      return cardType;
-    }
+export function formatCreditCardNumber(value: string): string {
+  if (!value) {
+    return value;
   }
 
-  return "Unknown";
-}
+  const issuer = Payment.fns.cardType(value);
+  const clearValue = clearNumber(value);
+  let nextValue: string;
 
-
-export function validateLuhnAlgorithm(cardNumber: string): boolean {
-  let sum = 0;
-  let isEven = false;
-
-  for (let i = cardNumber.length - 1; i >= 0; i--) {
-    let digit = parseInt(cardNumber.charAt(i), 10);
-
-    if (isEven) {
-      digit *= 2;
-      if (digit > 9) {
-        digit -= 9;
-      }
-    }
-    sum += digit;
-    isEven = !isEven;
-  }
-  detectCardType(cardNumber);
-  return sum % 10 === 0;
-}
-
-
-export function validateExpirationDate(expirationMonth: number, expirationYear: number): boolean {
-  const currentDate: Date = new Date();
-  const currentYear: number = currentDate.getFullYear();
-  const currentMonth: number = currentDate.getMonth() + 1; // January is 0
-
-  if (expirationYear > currentYear) {
-      return true;
-  } else if (expirationYear === currentYear && expirationMonth >= currentMonth) {
-      return true;
+  switch (issuer) {
+    case "amex":
+      nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(4, 10)} ${clearValue.slice(10, 15)}`;
+      break;
+    case "dinersclub":
+      nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(4, 10)} ${clearValue.slice(10, 14)}`;
+      break;
+    default:
+      nextValue = `${clearValue.slice(0, 4)} ${clearValue.slice(4, 8)} ${clearValue.slice(8, 12)} ${clearValue.slice(12, 19)}`;
+      break;
   }
 
-  return false;
+  return nextValue.trim();
 }
 
-export function validateCVV(cvv: string): boolean {
-  const cvvPattern: RegExp = /^[0-9]{3,4}$/;
-  return cvvPattern.test(cvv);
+export function formatCVC(value: string, allValues: Record<string, string> = {}): string {
+  const clearValue = clearNumber(value);
+  let maxLength = 4;
+
+  if (allValues.number) {
+    const issuer = Payment.fns.cardType(allValues.number);
+    maxLength = issuer === "amex" ? 4 : 3;
+  }
+
+  return clearValue.slice(0, maxLength);
 }
+
+export function formatExpirationDate(value: string): string {
+  const clearValue = clearNumber(value);
+
+  if (clearValue.length >= 3) {
+    return `${clearValue.slice(0, 2)}/${clearValue.slice(2, 4)}`;
+  }
+
+  return clearValue;
+}
+
+
+export function formatFormData(data: Record<string, string>): string[] {
+  return Object.keys(data).map(d => `${d}: ${data[d]}`);
+}
+
+
