@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import ApartmentCards from '@/components/shared/others/cards';
+import {ApartmentCards, ApartmentSlide} from '@/components/shared/others/cards';
 import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
 import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { Container, GridContainer3 } from '@/components/shared/containers/container';

@@ -1,9 +1,16 @@
+import Link from 'next/link';
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-const SelectUserType = ({url, title, icon, desc}) => {
+interface selectUserProps{
+  url:string;
+  title:string;
+  icon:string;
+  desc:string;
+}
+
+const SelectUserType = ({url, title, icon, desc}:selectUserProps) => {
   return (
-    <Link to={url} className='p-2 flex items-center'>
+    <Link href={url} className='p-2 flex items-center'>
         <div>
             <img src="" alt="" />
         </div>
