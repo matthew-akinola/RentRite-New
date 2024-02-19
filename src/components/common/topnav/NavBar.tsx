@@ -30,7 +30,7 @@ const links: NavLinkItem[] = [
     },
     {
         name: 'Blog',
-        url: '/blog'
+        url: '/blog/spotlight'
     },
     {
         name: 'About Us',
