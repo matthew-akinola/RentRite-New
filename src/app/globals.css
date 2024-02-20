@@ -8,3 +8,8 @@
     text-wrap: balance;
   }
 }
+
+input[type="checkbox"]:checked{
+  outline-color: #954C97;
+  background-color: #954C97;
+}
