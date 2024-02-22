@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
-import { DynamicObject } from '@/types';
 
 const BASE_URL: string | undefined = process.env.BASE_URL;
 const APP_APP_URL: string | undefined = process.env.APP_APP_URL;
@@ -20,7 +19,7 @@ const API: AxiosInstance = axios.create({
   withCredentials: true,
 });
 
-export async function POST (req: NextApiRequest, res: NextApiResponse) {
+export async function POST (req: Request, res: NextApiResponse) {
   try {
     if (req.method !== 'POST') {
       return res.status(405).json({ message: 'Method Not Allowed' });

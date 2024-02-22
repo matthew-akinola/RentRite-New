@@ -2,7 +2,7 @@
 
 import React, { FormEvent, useState } from 'react'
 import { PryButton } from '@/components/shared/others/buttons'
-import { AuthHeader } from '../layout'
+// import { AuthHeader } from '../layout'
 import TextInput from '@/components/shared/inputs/TextInput'
 import PasswordInput from '@/components/shared/inputs/PasswordInput'
 import axios from 'axios'
@@ -116,7 +116,7 @@ const SignUp = () => {
 
   return (
         <div className='flex flex-col justify-center items-center w-full h-full'>
-            <AuthHeader title={'Register/Sign up to RentRite'} text={'We are excited to see you!'}/>
+            {/* <AuthHeader title={'Register/Sign up to RentRite'} text={'We are excited to see you!'}/> */}
 
             <div className='w-full flex justify-center items-center py-8'>
             <form onSubmit={handleSubmit} action='' className='flex flex-col space-y-6 w-full sm:w-[80%]'>

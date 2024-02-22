@@ -4,22 +4,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-interface AuthHeaderProps {
-  title: string;
-  text: string;
-}
-
-export const AuthHeader: React.FC<AuthHeaderProps> = ({ title, text }) => {
-  return (
-    <div className='flex justify-center items-center text-center flex-col space-y-6 '>
-      <h3 className='font-[800] text-[24px] leading-[32px] text-center text-[#161518]'>{title}</h3>
-      <p className='text-[#565560] text-[18px] font-[700]'>{text}</p>
-    </div>
-  );
-};
-
 interface AuthLayoutProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {

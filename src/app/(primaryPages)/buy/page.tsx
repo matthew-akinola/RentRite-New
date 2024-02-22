@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 // import MainLayout from '../../layouts/MainLayout'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import {ApartmentCards, ApartmentSlide} from '@/components/shared/others/cards';
+import ApartmentSlide, {ApartmentCards} from '@/components/shared/others/cards';
 import { Container, GridContainer1, GridContainer3 } from '@/components/shared/containers/container';
 import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { DynamicObject } from '@/types';
@@ -95,7 +95,7 @@ const Buy = () => {
                     {
                       data.slice(0,6)?.map((apt, ind)=>{
                         return(
-                          <ApartmentSlide 
+                          <ApartmentSlide
                           key={ind}
                           img={apt.pictures[0]?.image}
                           location={apt.short_address}

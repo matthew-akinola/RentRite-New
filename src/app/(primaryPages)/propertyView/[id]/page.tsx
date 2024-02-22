@@ -1,7 +1,7 @@
 "use client"
 import { Container, GridContainer5 } from '@/components/shared/containers/container'
 import { PryButton } from '@/components/shared/others/buttons'
-import { ApartmentCards, ApartmentShortCards } from '@/components/shared/others/cards'
+import {  ApartmentShortCards } from '@/components/shared/others/cards'
 import { HeaderTextSM } from '@/components/shared/typographs/Typo'
 import useFetch from '@/hooks/useFetch'
 import { useFetchApartment } from '@/hooks/useFetchApartment'
