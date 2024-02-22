@@ -13,13 +13,13 @@ import { handleEmailChange } from "@/lib/utils"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import axios from "axios"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Input } from "@/components/ui/input"
-import { GoQuestion } from "react-icons/go"
 import Loader from "@/components/shared/horizontalLoader"
 import { MdOutlineCancel } from "react-icons/md"
+import CardPaymentForm from "@/components/shared/CardPaymentForm"
 
+
+interface iState { "card-number": string; "expire-date": string; cvv: string; }
 
 const AgentSubscription = () => {
         const [isModalOpen, setIsModalOpen] = useState(false)
@@ -30,11 +30,16 @@ const AgentSubscription = () => {
         const [flutterWaveEmail, setFlutterWaveEmail] = useState('');
         const [isFlutterWaveEmailValid, setIsFlutterWaveEmailValid] = useState(false);
         const [paymentGatewayType, setPaymentGatewayType] = useState("")
-        const [cardNumber, setCardNumber] = useState('');
+        // const [cardNumber, setCardNumber] = useState('');
         const [cost, setCost] = useState<number>(0);
         const [isLoading, setIsLoading] = useState(false);
         const [isPending, setIsPending] = useState(false);
         const [status, setStatus] = useState<string>('')
+        const [state, setState] = useState<iState>({
+            'card-number': '',
+            'expire-date': '',
+            cvv: '',
+          });
 
 
         const formSchema = z.object({
@@ -49,17 +54,9 @@ const AgentSubscription = () => {
             }),
         })
 
-        const form = useForm<z.infer<typeof formSchema>>({
-            resolver: zodResolver(formSchema),
-            defaultValues: {
-              "card-number" : cardNumber,
-              cvv: "",
-              "expire-date": ""
-            },
-          })
-    
+       
 
-        async function onSubmit(values: z.infer<typeof formSchema>) {
+        const handleSubmitCardPayment = async (values: z.infer<typeof formSchema>) =>  {
             console.log(values)
 
             setIsCardDetailModal(false)
@@ -103,21 +100,15 @@ const AgentSubscription = () => {
             }
           }
 
-          const handleCardNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-            let formattedCardNumber = event.target.value.replace(/\s/g, ''); // Remove existing spaces
-            formattedCardNumber = formattedCardNumber.replace(/(.{4})/g, '$1 '); // Insert space after every four characters
-            setCardNumber(formattedCardNumber);
-        };
-
         return (
             <div>
                 {/* payment gateway modal */}
                 <Modal isOpen={isModalOpen} title={'Pay Via Payment Gateway'} setIsOpen={() => setIsModalOpen(false)}>
-                    <div className="px-12 flex flex-col mt-10 pb-16">
+                    <div className="px-6 md:px-12 flex flex-col mt-10 pb-16">
                         <p className="font-[700]">SELECT PAYMENT GATEWAY</p>
                         <div className="flex flex-col">
-                            <div className="flex w-full justify-between mt-5">
-                                <div className="flex items-center">
+                            <div className="flex w-full justify-between mt-5 flex-col md:flex-row flex-wrap">
+                                <div className="flex items-center mb-3 md:mb-0">
                                     <p className="me-2">Pay via</p>
                                     <Image src="/icons/Paystack.svg" alt={"paystack"} width={150} height={70}/>
                                 </div>
@@ -137,8 +128,8 @@ const AgentSubscription = () => {
                             </div>
                         </div>  
                         <div className="flex flex-col mt-5">
-                            <div className="flex w-full justify-between mt-5">
-                                <div className="flex items-center">
+                            <div className="flex w-full justify-between mt-5 flex-wrap flex-col md:flex-row">
+                                <div className="flex items-center mb-3 md:mb-0">
                                     <p className="me-2">Pay via</p>
                                     <Image src="/icons/flutterwave.svg" alt={"paystack"} width={150} height={70}/>
                                 </div>
@@ -162,64 +153,14 @@ const AgentSubscription = () => {
 
                 {/* flutter/paystack card details modal */}
                 <Modal isOpen={isCardDetailModal} title={`Pay via ${paymentGatewayType}`} setIsOpen={() => {setIsCardDetailModal(false); setIsModalOpen(true)}}>
-                    <div className="px-12 flex flex-col mt-10 pb-16">
-                        <div className="flex flex-col justify-center items-center">
-                            <div className="w-full">
-                                <Form {...form}>
-                                    <form onSubmit={form.handleSubmit(onSubmit)} className="w-[100%] mt-10 text-center">
-                                            <FormField
-                                            control={form.control} 
-                                            name="card-number"
-                                            render={({ field }) => (
-                                                <FormItem className="w-[100%] text-start mb-10 md:mb-0 ">
-                                                    <FormLabel>{`Card number`}</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="0000 0000 0000 0000" type="number" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage className="text-red-500" />
-                                                </FormItem>
-                                            )}
-                                            />
-                                        <div className="flex flex-col md:flex-row w-[100%] gap-x-[1rem] mt-8">
-                                            <FormField
-                                            control={form.control} 
-                                            name="expire-date"
-                                            render={({ field }) => (
-                                                <FormItem className="md:w-[50%] text-start mb-10 md:mb-0 ">
-                                                    <FormLabel className="flex ">{`Card Expiry`}</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="MM/YY" {...field} />
-                                                    </FormControl>
-                                                    <FormMessage  className="text-red-500"/>
-                                                </FormItem>
-                                            )}
-                                            />
-                                            <FormField
-                                            control={form.control} 
-                                            name="cvv"
-                                            render={({ field }) => {
-                                                return(
-                                                    (
-                                                        <FormItem className="md:w-[50%] text-start">
-                                                            <FormLabel className="flex items-center gap-x-1">{`CVV`} <GoQuestion /></FormLabel>
-                                                            <FormControl>
-                                                                <Input placeholder="123" {...field} />
-                                                            </FormControl>
-                                                            <FormMessage className="text-red-500"/> 
-                                                        </FormItem>
-                                                    )
-                                                )
-                                            }}
-                                            />
-                                        </div>
-                                        
-                                        <Button type="submit" className={`${!form.formState.isValid ? "bg-purple-400" : "bg-primary"} w-full text-white px-3 mt-10`} disabled={!form.formState.isValid}>
-                                            {`Pay ${cost}`}
-                                        </Button>
-                                    </form>
-                                </Form>
-                            </div>
-                        </div>  
+                    <div className="px-6 md:px-12 flex flex-col mt-10 pb-16">
+                        <CardPaymentForm 
+                            cost={cost} 
+                            setExpiryDate={(e) => setState((prev) => ({ ...prev, expiry: e }))}
+                            setCardNumber={(e) => setState((prev) => ({ ...prev, number: e }))}
+                            setCVV={(e) => setState((prev) => ({ ...prev, cvv: e }))}
+                            handleSubmit={() => handleSubmitCardPayment(state)}
+                        />
                     </div>
                 </Modal>
                                             

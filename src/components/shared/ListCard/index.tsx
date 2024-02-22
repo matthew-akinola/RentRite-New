@@ -17,10 +17,10 @@ interface ListCardProps {
 
 const ListCard: React.FC<ListCardProps> = ({ image, type, location, name, price, description, view, bookmark, share }) => {
   return (
-    <div className="border p-5 pb-4">
+    <div className="border p-3 md:p-5 ">
       <div className="flex space-x-3">
-        <img src={image} alt="" className='h-[170px] w-[155px] object-cover' />
-        <div className='w-full'>
+        <img src={image} alt="" className='hidden md:flex h-[170px] w-[155px] object-cover me-3' />
+        <div className='w-full !m-0 md:ml-[12px]'>
           <div className="flex justify-between items-center">
             <div className='flex space-x-2 items-center'>
               <h5 className='text-md text-pur font-bold'>{type} </h5>
@@ -30,8 +30,8 @@ const ListCard: React.FC<ListCardProps> = ({ image, type, location, name, price,
               </span>
             </div>
             <div className="flex space-x-2">
-                <CiBookmark className='w-8 h-8'/>
-                <IoShareSocialOutline className='w-8 h-8'/>
+                <CiBookmark className='w-4 md:w-8 h-4 md:h-8'/>
+                <IoShareSocialOutline className='w-4 md:w-8 h-4 md:h-8'/>
             </div>
           </div>
           <h2 className='text-2xl font-bold '>{name}</h2>
