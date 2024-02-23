@@ -25,7 +25,7 @@ const Contact = () => {
                             placeholder="Enter your email address..."
                         />
                         <textarea
-                            rows="8"
+                            rows={8}
                             className="input-box italic mb-4 bg-ash-100 outline-gray-400"
                             placeholder="Enter your message here..."
                             style={{ resize: "none" }}

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 interface ApartmentCardsProps {
-  img: string | { image?: string }[];
+  img: string ;
   location: string;
   price: number | string;
   title: string;
@@ -17,7 +17,7 @@ interface ApartmentCardsProps {
 }
 
 
-export const ApartmentSlide: React.FC<ApartmentCardsProps> = ({ img, location, price, title, agent, like, type, desc, toilet, bedroom, bathroom }) => {
+const ApartmentSlide: React.FC<ApartmentCardsProps> = ({ img, location, price, title, agent, like, type, desc, toilet, bedroom, bathroom }) => {
   return (
     <div className='w-full flex'>
 
@@ -49,6 +49,8 @@ export const ApartmentSlide: React.FC<ApartmentCardsProps> = ({ img, location, p
     </div>
   );
 }
+
+export default ApartmentSlide;
 
 export const ApartmentCards: React.FC<ApartmentCardsProps> = ({ img, location, price, title, agent, like, type, url_id }) => {
   return (
@@ -93,5 +95,3 @@ export const ApartmentShortCards: React.FC<ApartmentCardsProps> = ({ img, locati
     </div>
   );
 }
-
-

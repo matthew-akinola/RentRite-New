@@ -1,7 +1,7 @@
 "use client"
 
 import React, { FormEvent, useContext, useState } from 'react';
-import { AuthHeader } from '../layout';
+// import { AuthHeader } from '../layout';
 import { PryButton } from '@/components/shared/others/buttons';
 import TextInput from '@/components/shared/inputs/TextInput';
 import PasswordInput from '@/components/shared/inputs/PasswordInput';
@@ -100,7 +100,7 @@ const validateFormData = (data: any) => {
 
   return (
       <div className='flex flex-col justify-center items-center w-full h-full'>
-        <AuthHeader title={'Welcome Back!'} text={'We are excited to see you again!'} />
+        {/* <AuthHeader title={'Welcome Back!'} text={'We are excited to see you again!'} /> */}
 
         <div className='w-full flex justify-center items-center py-8'>
           <form action='' onSubmit={handleSubmit} className='flex flex-col space-y-6 w-full sm:w-[80%] '>

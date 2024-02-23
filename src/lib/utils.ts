@@ -76,3 +76,6 @@ export function formatFormData(data: Record<string, string>): string[] {
 }
 
 
+export function isEmpty(obj:any) {
+  return Object.keys(obj).length === 0;
+}
