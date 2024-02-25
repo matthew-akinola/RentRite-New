@@ -3,25 +3,27 @@ import React, { useEffect, useState } from 'react'
 // import MainLayout from '../../layouts/MainLayout'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import ApartmentCards from '@/components/shared/others/cards';
-import { Container, GridContainer3 } from '@/components/shared/containers/container';
-import useFetchApartment from '@/hooks/fetchApartment';
+import ApartmentSlide, {ApartmentCards} from '@/components/shared/others/cards';
+import { Container, GridContainer1, GridContainer3 } from '@/components/shared/containers/container';
+import {useFetchApartment} from '@/hooks/useFetchApartment';
+import { DynamicObject } from '@/types';
+import { BsFillGridFill } from "react-icons/bs";
 
 const Buy = () => {
   const {myData} = useFetchApartment()
-  const [data, setData] = useState([])
+  const [layout, setLayout] = useState('grid')
+  const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
-    console.log(myData)
     setData((myData))
+    console.log(data)
   },[myData])
 
-  console.log(data)
   return (
       <Container>
         <div className='flex w-full gap-10'>
-          <div className='basis-9/12'>
+          <div className=' w-full lg:w-9/12'>
             {/* active tab */}
             <div className='space-x-4'>
               <span>BUY</span>
@@ -50,26 +52,27 @@ const Buy = () => {
             {/* Appartment container */}
             <div>
               <div className='flex justify-between items-center'>
-              <h1 className="text-2xl font-bold text-[#161518] mb-7">
+              <h1 className="text-lg md:text-2xl font-bold text-[#161518] mb-7">
               Properties for <span className="text-[#A655A7] ">Rent</span> in
               “Nigeria”
             </h1>
             {/* <button className="cursor-pointer">
               <FaBars size={23} />
             </button> */}
-                <div>
-                  <button>grid</button>
-                  <button>layout</button>
+                <div className='hidden md:block space-x-4'>
+                  <button onClick={()=>setLayout('grid')}><BsFillGridFill color='#A655A7' size={25}/></button>
+                  <button onClick={()=>setLayout('slide')}><FaBars size={25}/></button>
                 </div>
               </div>
 
               <div className=''>
                 {
                   data.length > 0?
+                  (layout === 'grid'?
+
                     <GridContainer3>
                     {
                       data.slice(0,6)?.map((apt, ind)=>{
-                        console.log(apt)
                         return(
                           <ApartmentCards 
                           key={ind}
@@ -80,12 +83,38 @@ const Buy = () => {
                           like={apt.like}
                           type={apt.category}
                           agent={apt.agent.name}
+                          url_id={apt.id}
                         />
                         )
                       }
                           
                       )}
                     </GridContainer3>
+                    :
+                    <GridContainer1>
+                    {
+                      data.slice(0,6)?.map((apt, ind)=>{
+                        return(
+                          <ApartmentSlide
+                          key={ind}
+                          img={apt.pictures[0]?.image}
+                          location={apt.short_address}
+                          price={apt.f_price}
+                          title={apt.title}
+                          like={apt.like}
+                          type={apt.category}
+                          agent={apt.agent.name}
+                          desc={apt.description}
+                          toilet={apt.specifications.toilets}
+                          bathroom={apt.specifications.bathrooms}
+                          bedroom={apt.specifications.bedrooms}
+                        />
+                        )
+                      }
+                          
+                      )}
+                    </GridContainer1>                   
+                    )
                   :
 
                   <h1>Loading Apartments....</h1>
@@ -102,7 +131,7 @@ const Buy = () => {
             {/* paginator */}
             <div></div>
           </div>    
-          <div className="basis-3/12">
+          <div className=" hidden lg:block w-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />

@@ -1,9 +1,9 @@
 import { useEffect, useState   } from "react";
 import axios from 'axios'
 
-const url = process.env.BASE_URL ?? 'https://rentrite-homes.up.railway.app';
+const url = process.env.BASE_URL;
 
-function useFetchApartment (){
+function useFetch (endpoint:string){
 
     const [myData, setMydata] = useState([]);
     const [isPending, setIsPending] = useState(true)
@@ -12,17 +12,17 @@ function useFetchApartment (){
     useEffect(() => {
         const post = async () => {
           try {
-            const res = await axios.get(`${url}/apartment/`);
+            const res = await axios.get(url+endpoint);
             if (res) { 
               const dataArray = res?.data;
-              console.log(typeof res?.data)
+              console.log(res?.data)
               setMydata(dataArray);
               setIsPending(false)
               setIsError(null)             
             
 
             }
-          } catch (err: unknown ) {
+          } catch (err: any ) {
             console.log(err.message);
             setIsPending(false)
             setIsError(err.message)
@@ -39,4 +39,4 @@ function useFetchApartment (){
     }
 }
 
-export default useFetchApartment
+export default useFetch

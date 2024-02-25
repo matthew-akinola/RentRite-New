@@ -1,29 +1,6 @@
-// import React from 'react'
-// import { HeaderTextMD } from '../../shared/typographs/Typo'
-// import { PryButton } from '../../shared/others/buttons'
-
-// const Prefooter = () => {
-//   return (
-//     <div>
-//         <div className='container py-12'>
-//             <HeaderTextMD align={'left'} text={'Get the Best Deal  for Your Property'} />
-            
-//             <p>Maximize your profit with us, sell with confidence, grow your reputation.</p>
-
-//             <PryButton name={'Become a seller'}/>
-//         </div>
-//     </div>
-//   )
-// }
-
-// export default Prefooter
-
-
 import React from "react";
-import { MdFace } from "react-icons/md";
-import { Link } from "react-router-dom";
-import footerFrame from "../../../assets/images/footerframe2.png";
 import "./prefooter.css";
+import Link from "next/link";
 
 const Prefooter = () => {
   return (
@@ -33,7 +10,7 @@ const Prefooter = () => {
         alt="house illustration absolute bottom-0"
         className="hidden md:inline absolute bottom-0 left-[16.5rem] z-0"
       />
-      <img className="absolute bottom-0 md:bottom-14 lg:bottom-28 right-0 lg:right-20 z-10 w-[5.5rem]" src={footerFrame} alt="" />{" "}
+      <img className="absolute bottom-0 md:bottom-14 lg:bottom-28 right-0 lg:right-20 z-10 w-[5.5rem]" src={'/images/footerframe2.png"'} alt="" />{" "}
       <img
         className="hidden md:inline absolute bottom-0 right-0 w-[13rem] h-[13rem] z-0"
         src={"/images/footerImg2.png"}
@@ -49,7 +26,7 @@ const Prefooter = () => {
             reputation
           </p>
         </header>
-        <Link to="/agent-signup">
+        <Link href="/agent-signup">
           <button className="py-4 px-14 bg-[#79007B] items-center shadow text-white rounded-lg z-10">
             Be a seller
           </button>

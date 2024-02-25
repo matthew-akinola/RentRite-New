@@ -2,18 +2,18 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import ApartmentCards from '@/components/shared/others/cards';
+import {ApartmentCards} from '@/components/shared/others/cards';
 import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
-import useFetchApartment from '@/hooks/fetchApartment';
+import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { Container, GridContainer3 } from '@/components/shared/containers/container';
+import { DynamicObject } from '@/types';
 
 const Rent = () => {
   const {myData} = useFetchApartment()
-  const [data, setData] = useState([])
+  const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
   
   useEffect(()=>{
-    console.log(myData)
     setData((myData))
   },[myData])
 
@@ -67,7 +67,7 @@ const Rent = () => {
                   data.length > 0?
                     <GridContainer3>
                     {
-                      data.slice(0,6)?.map((apt, ind)=>
+                      data.slice(0,6)?.map((apt:any, ind:any)=>
                           <ApartmentCards 
                           key={ind}
                           img={apt.pictures[0]?.image}
