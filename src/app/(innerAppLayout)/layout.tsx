@@ -16,7 +16,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
         <AuthenticatedNavBar/>
       </header>
       <main className='flex w-full' style={{height: `calc(100vh - 96px)`}}>
-        <div className='className=" lg:w-[20%] '><SideNav/></div>
+        <div className='lg:w-[20%] hidden md:flex'><SideNav/></div>
         <div className='w-full lg:w-[80%] overflow-x-hidden p-8'>{children}</div>
       </main>
       </body>

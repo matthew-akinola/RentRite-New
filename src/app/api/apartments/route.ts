@@ -2,7 +2,7 @@ import { DynamicObject } from '@/types';
 import axios, { AxiosInstance } from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const GET = async ({ nextUrl }: NextRequest) => {
+export async function GET ({ nextUrl }: NextRequest) {
 
     const url: string | undefined = process.env.BASE_URL;
 

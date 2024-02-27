@@ -39,14 +39,14 @@ const Dashboard= () => {
       </div>
 
       {type === 'Home' ?
-        <div className="p-4">
+        <div className="p-0 md:p-4">
           <div className=" relative w-full bg-dashboard-bg bg-cover rounded-2xl">
             <Image
                 src="/images/dashboardBanner.png"
                 width={900}
                 height={400}
                 alt="dashboard banner"
-                className="w-full"
+                className="w-full h-[350px] md:h-[20%] object-cover"
             />
             <div className="z-[99] absolute top-0 bottom-0 left-0 right-0 m-auto py-5">
               <h3 className="text-center text-2xl text-white font-semibold py-5 tracking-wider">BUY YOUR DREAM HOUSE</h3>

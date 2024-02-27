@@ -19,32 +19,32 @@ export const dashboardPaths = [
         icon: <RiCompassDiscoverLine className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/notification',
         name: "Notification",
         icon: <MdNotificationsNone className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/inbox',
         name: "Inbox",
         icon: <MdOutlineForwardToInbox className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/bookmark',
         name: "Bookmark",
         icon: <FaRegBookmark className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/transactions',
         name: "Transactions",
         icon: <GrTransaction className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/help-desk',
         name: "Help Desk",
         icon: <GoQuestion className="w-6 h-6"/>
     },
     {
-        path: '/',
+        path: '/dashboard/settings',
         name: "Settings",
         icon: <IoSettingsOutline className="w-6 h-6"/>
     },

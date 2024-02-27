@@ -55,14 +55,16 @@ const SearchForm: React.FC = () => {
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
-    const results: Apartment[] = await apartmentsApi.getApartments(
-      searchQuery,
-      type,
-      bedroom,
-      minprice,
-      maxprice
-    );
+    const results: Apartment[] = [];
     setSearchResults(results);
+    // const results: Apartment[] = await apartmentsApi.getApartments(
+    //   searchQuery,
+    //   type,
+    //   bedroom,
+    //   minprice,
+    //   maxprice
+    // );
+    // setSearchResults(results);
     window.location.href = `/search?q=${encodeURIComponent(
       searchQuery
     )}&type=${type}&bedroom=${bedroom}&minprice=${minprice}&maxprice=${maxprice}`;
