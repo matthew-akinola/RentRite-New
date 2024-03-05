@@ -9,7 +9,6 @@ const BEARER_TOKEN: string | undefined = process.env.BEARER_TOKEN;
 if (!BASE_URL || !APP_APP_URL || !BEARER_TOKEN) {
   throw new Error('Environment variables are not properly configured.');
 }
-
 const API: AxiosInstance = axios.create({
   headers: {
     'Access-Control-Allow-Origin': APP_APP_URL,
