@@ -94,9 +94,9 @@ const NavBar = () => {
 
   return (
     <div>
-        <div className={`${isScrolled ? ' w-full shadow-lg transition-all ease-in-out duration-500 z-[9999999999999]' : ''} !bg-white fixed  z-[9999999999999] w-full bg-transparent`}>
+        <div className={`${isScrolled ? ' w-full shadow-lg transition-all ease-in-out duration-500 z-[1000]' : ''} !bg-white fixed top-0 z-[1000] w-full bg-transparent`}>
         
-                <div data-aos="flip-up" className={` py-6 relative z-[9999999999999] w-full`}>
+                <div data-aos="flip-up" className={` py-6 relative z-[1000] w-full`}>
                     <Container>
                         <div className=' flex w-full justify-between items-center'>
                         <div>
@@ -126,7 +126,7 @@ const NavBar = () => {
                         </div>
                     </Container>
                     {/* mobile */}
-                        <ul className={` bg-white lg:hidden w-full h-[93vh] lg:h-full top-[100px] lg:top-0 left-0 flex items-center gap-10 lg:space-y-0 lg:space-x-3 absolute lg:relative flex-col lg:flex-row transition-all duration-500 ease-in-out ${open? 'translate-x-[0]' : 'translate-x-[-800px]'} py-10`}>
+                        <ul className={` bg-white lg:hidden w-full h-[93vh] lg:h-full top-[100px] lg:top-0 left-0 flex items-center gap-10 lg:space-y-0 lg:space-x-3 absolute lg:relative flex-col lg:flex-row transition-all duration-500 ease-in-out ${open? 'translate-x-[0]' : 'translate-x-[-1000px]'} py-10`}>
                             {
                                 links?.map((item, id)=>{
                                     return(

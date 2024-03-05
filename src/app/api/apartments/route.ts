@@ -5,10 +5,20 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET ({ nextUrl }: NextRequest) {
 
     const url: string | undefined = process.env.BASE_URL;
+    console.log("nextUrl+", nextUrl.searchParams);
+
 
   try {
-    const response = await axios.get<DynamicObject[]>(url + "/apartment/");
+    
+    let endpoint = url + "/apartment/";
+              
+      if (nextUrl.searchParams.size > 0) {
+        const queryString = Array.from(nextUrl.searchParams).map(([key, value]) => `${key}=${value}`).join('&');
+        endpoint += `?${queryString}`;
+      }
 
+      const response = await axios.get<DynamicObject[]>(endpoint);
+      
     return NextResponse.json(response.data);
   } catch (error) {
     console.error('Error in GET request:', error);

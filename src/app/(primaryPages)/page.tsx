@@ -1,5 +1,5 @@
 "use client"
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useFetchApartment } from "@/hooks/useFetchApartment";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -9,12 +9,21 @@ import ProperityForSale from "@/components/home/ProperityForSale";
 import Hero from "@/components/home/Hero";
 import { data } from "@/components/home/data";
 import GetStarted from "@/components/common/footer/getStart";
+import { DynamicObject } from "@/types";
+import Loader from "@/components/shared/horizontalLoader";
+import Spinner from "@/components/shared/Spinner";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
 
 const Home = () => {
-  const {myData: fetchedApartments, isError, isPending,} = useFetchApartment();
+  const {myData: fetchedData, isError, isPending, fetchApartments} = useFetchApartment();
+  const [fetchedApartments, setFetchedApartments] = useState<DynamicObject[]>([])
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [apartmentsToShow, setApartmentsToShow] = useState(8);
+  const [currentDisplay, setCurrentDisplay] = useState('Rent')
+  const [bookmarkList, setBookMarkList] = useState<string[]>([])
 
+  console.log(fetchedApartments)
 
   const handleCategoryClick = (category : any) => {
     setSelectedCategory(category);
@@ -37,10 +46,25 @@ const Home = () => {
     { text: "Complete Transaction", bg: "/images/completeTransaction.png" },
   ];
 
+
+  useEffect(() => {
+    setFetchedApartments([...fetchedData])
+  }, [fetchedData])
+
+  const handleRemoveBookmark = (apartmentId: string) => {
+    const updatedList = bookmarkList.filter(id => id !== apartmentId);
+    setBookMarkList(updatedList);
+  };
+
+  const handleAddBookmark = (apartmentId: string) => {
+    const updatedList = [...bookmarkList, apartmentId];
+    setBookMarkList(updatedList);
+  };
+
   return (
     <div className="w-full">
       {/* Hero Component */}
-      <Hero />
+      <Hero setDisplayType={(e) => setCurrentDisplay(e)} refetchApartment={fetchApartments}/>
 
       {/* Easily Navigate Section */}
       <section className="flex justify-center">
@@ -82,9 +106,9 @@ const Home = () => {
       </section>
 
       {/* Properties for Sale Section */}
-      <section className="flex justify-center">
+      <section className="flex justify-center pt-5" id="apartmentListing">
         <div className="container px-5 md:px-7 mb-[2rem] ">
-          <h4 className="text-2xl font-bold">Properties for Sale in Nigeria</h4>
+          <h4 className="text-2xl font-bold">Properties for {currentDisplay} in Nigeria</h4>
           <div className="flex gap-1 justify-evenly md:justify-start flex-wrap py-3 text-ash-300 mt-8 md:mt-14">
             {subMenu.map((category) => (
               <button
@@ -101,11 +125,11 @@ const Home = () => {
               </button>
             ))}
           </div>
-          {apartments.length > 0 ? (
+          {!isPending && apartments.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 py-3 gap-y-10 gap-x-6 lg:grid-cols-4 sm:content-center">
               {apartments.map((apartment, index) => (
                 <div key={index} className="w-full md:max-w-80 group ">
-                  <Link href={`/apartment/${apartment.id}`}>
+                  <Link href={`/propertyView/${apartment.id}`}>
                     <div className="overflow-hidden height-[350px]">
                       <Image
                         className="rounded-xl flex-1 w-full h-72 object-cover transition-transform duration-300 group-hover:scale-110"
@@ -135,7 +159,20 @@ const Home = () => {
                             {apartment?.category}
                           </h4>
                           <div className="flex justify-end pt-1 cursor-pointer">
-                            <Image src={'/icons/love.svg'} alt="" width={20} height={20}/>
+                            {/* <Image src={'/icons/love.svg'} alt="" width={20} height={20}/> */}
+                            {
+                              bookmarkList.includes(apartment.id) ? (
+                                <FaHeart className="w-7 h-7 fill-red-500"  onClick={(e) => {
+                                  e.preventDefault()
+                                  handleRemoveBookmark(apartment.id as string)
+                                }}/>
+                              ) : (
+                                <CiHeart className="w-8 h-8 fill-gray-500" onClick={(e) => {
+                                  e.preventDefault()
+                                  handleAddBookmark(apartment.id as string);
+                                }}/>
+                              )
+                            }
                           </div>
                         </div>
                       </div>
@@ -144,7 +181,10 @@ const Home = () => {
               ))}
             </div>
           ) : (
-            <h1 className="mt-9 text-center text-xl">Loading...</h1>
+              <div className="w-full flex flex-col justify-center items-center p-20">
+                    <Spinner/>
+                  <p className="mt-5">loading...</p>
+              </div>              
           )}
           {apartmentsToShow < filteredApartments.length && (
             <div className="text-left pb-4 md:pb-16 border-b border-[#E4CCE5]">
