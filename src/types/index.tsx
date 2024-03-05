@@ -11,3 +11,5 @@ export interface CardProps {
     view: string;
     extraClass?: string;
   }
+
+export type displayType = "BUY" | "RENT" | "CONSULTANT";
