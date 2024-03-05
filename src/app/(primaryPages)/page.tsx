@@ -41,7 +41,7 @@ const Home = () => {
   };
 
   const homeCard = [
-    { text: "Search Apartment", bg: "/images/searchApartment.png" },
+    { text: "Search Apartment", bg: "/images/searchApartmentss.png" },
     { text: "Contact the Agent", bg: "/images/contactAgent.png" },
     { text: "Complete Transaction", bg: "/images/completeTransaction.png" },
   ];
