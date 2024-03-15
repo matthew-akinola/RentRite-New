@@ -1,6 +1,9 @@
 "use client"
 import Dropdown from "@/components/shared/dropDown";
+import Modal from "@/components/shared/modal";
 import { useFetchApartment } from "@/hooks/useFetchApartment";
+import { displayType } from "@/types";
+import Image from "next/image";
 import React, { useState, FormEvent } from "react";
 import { FaSearch } from "react-icons/fa";
 
@@ -12,7 +15,13 @@ interface Apartment {
   // Add other properties based on your data structure
 }
 
-const SearchForm: React.FC = () => {
+
+interface iSearchForm {
+  setDisplay: (e: any) => void
+  refetchApartment: (queryParameters: { [key: string]: any }) => void
+}
+
+const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [type, setType] = useState<string>("All Types");
   const [bedroom, setBedroom] = useState<string>("Any");
@@ -23,7 +32,16 @@ const SearchForm: React.FC = () => {
   const [smin, setSmin] = useState<boolean>(false);
   const [smax, setSmax] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<Apartment[]>([]);
-  const apartmentsApi = useFetchApartment();
+  const [displayType, setDisplayType] = useState<displayType>("RENT")
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
+  interface iDisplayTypeList {
+    name : displayType,
+    value: string
+  }
+  const displayTypeList: iDisplayTypeList[]  = [
+    {name : "RENT", value: "Rent"} ,  {name : "BUY", value: "Sale"}, {name : "CONSULTANT", value: "Consultation"}  
+  ]
 
   const typeList: string[] = [
     "All Types",
@@ -98,18 +116,53 @@ const SearchForm: React.FC = () => {
 
   const filteredResults = searchResults.filter(filterApartment);
 
+  const handleDisplayTypeClicked = (value: iDisplayTypeList) => {
+    console.log(value)
+    if (value.value !== "Consultation") {
+      setDisplayType(value.name)
+      refetchApartment({"_type" : value.value});
+      setDisplay(value.value)
+    }else{
+        setIsModalOpen(true)
+    }
+  }
+
   return (
     <div className="pb-28 flex flex-col items-center">
+        <Modal isOpen={isModalOpen} title={'Service is Coming soon'} setIsOpen={() => setIsModalOpen(false)}>
+            <div className="flex justify-center items-center m-10 flex-col ">
+               <Image
+                    className="hidden md:inline absolute bottom-[-20px] right-0 w-[20rem] h-[8rem] z-0"
+                    src={"/images/footerImg1.png"}
+                    alt=""
+                    width={300}
+                    height={200}
+                />
+
+            </div>
+        </Modal>
         <div className="flex justify-start gap-8 w-90vw lg:w-[769px] mb-4 mx-auto">
-        <button className="text-[1.125rem] font-bold uppercase text-[#DCDBE0]">
-            Buy
-        </button>
-        <button className="text-[1.125rem] font-medium uppercase text-[#DCDBE0]">
-            Rent
-        </button>
-        <button className="text-[1.125rem] font-medium uppercase text-[#DCDBE0]">
-            Consultant
-        </button>
+          {
+            displayTypeList.map((typeName, index) => {
+              return (
+                <a
+                  href={"#apartmentListing"}
+                  key={index}
+                  onClick={(e) => {
+                      e.preventDefault();
+                      const apartmentListing = document.getElementById("apartmentListing");
+                      if (apartmentListing) {
+                        apartmentListing.scrollIntoView({ behavior: "smooth" });
+                        handleDisplayTypeClicked(typeName)
+                      }
+                  }}
+                  className={`text-[1.125rem] ${typeName.name === displayType ? "font-bold" : "font-medium"} uppercase text-[#DCDBE0]`}
+              >
+                  {typeName.name}
+              </a>
+              )
+            })
+          }
         </div>
 
 

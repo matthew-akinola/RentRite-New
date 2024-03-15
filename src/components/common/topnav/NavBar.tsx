@@ -94,9 +94,9 @@ const NavBar = () => {
 
   return (
     <div>
-        <div className={`${isScrolled ? ' w-full shadow-lg transition-all ease-in-out duration-500 z-[9999999999999]' : ''} !bg-white fixed top-0 z-[9999999999999] w-full bg-transparent`}>
+        <div className={`${isScrolled ? ' w-full shadow-lg transition-all ease-in-out duration-500 z-[1000]' : ''} !bg-white fixed top-0 z-[1000] w-full bg-transparent`}>
         
-                <div data-aos="flip-up" className={` py-6 relative z-[9999999999999] w-full`}>
+                <div data-aos="flip-up" className={` py-6 relative z-[1000] w-full`}>
                     <Container>
                         <div className=' flex w-full justify-between items-center'>
                         <div>
