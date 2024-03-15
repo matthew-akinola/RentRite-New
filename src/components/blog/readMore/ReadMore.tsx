@@ -70,9 +70,9 @@ const ReadMore = () => {
     
     {currentItems.map((readMore, index)=>
               <div className='mt-3' key={index}>
-                <div className='flex flex-col sm:flex-row my-10'>
-                    <img className='rounded h-[250px] md:h-auto mx-[23px] sm:mx-0 mb-4' src={readMore.imgUrl} alt="" />
-                    <div className='ml-6 h-[100%] my-auto max-w-[600px]'>
+                <div className='flex flex-col sm:flex-row my-10 min-w-[200px]'>
+                    <img className='rounded h-[250px] md:h-auto mx-[23px] sm:mx-0 mb-4 2xl:w-[350px] 2xl:mr-4' src={readMore.imgUrl} alt="" />
+                    <div className='ml-6 h-[100%] my-auto max-w-[600px] 2xl:max-w-[800px]'>
                         <h3 className='font-medium text-[#161518] text-2xl'>{readMore.tittle}</h3>
                         <span className='font-medium text-base text-[#B1B0B9] inline-block mt-2'>{readMore.date}</span>
                         <p className='text-[#82808F] h-[110px] text-ellipsis overflow-hidden text-xl font-[450px] mt-4'>{readMore.text}</p>
