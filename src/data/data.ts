@@ -87,3 +87,134 @@ export const readMore: ReadMoreInterface[] = [
     },
    
   ]
+
+
+export const featuredArticles = [
+  {
+    id: 1,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 2,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 3,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 4,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 5,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 6,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 7,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 8,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 9,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 10,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 11,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 12,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 13,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 14,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 15,
+    thumbnail: "/images/featuredBlogOne.png",
+    tittle : "2022 Africa Real Estate review",
+    text: "In 2022, the real estate industry in Africa saw a 500% growth rate. Join us as we analyse how to benefit in 2023.",
+    url: "/"
+  },
+  {
+    id: 16,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 17,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  },
+  {
+    id: 18,
+    thumbnail: "/images/featuredBlogTwo.png",
+    tittle : "Letter from our CEO",
+    text: "Real estate remains the one of the few industries yet to be affected by recession. Let’s discuss this & moving forward.",
+    url: "/"
+  }
+
+]
