@@ -11,7 +11,7 @@ import FeaturedArticles from '@/components/blog/FeaturedArticles/FeaturedArticle
 
 const Spotlight = () => {
     
-  return <div className=''>
+  return <div className='font-outfit'>
     <BlogNav />
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/spotlight_bg.png" alt="spotlight hero image" className='relative  w-full object-cover'/>
