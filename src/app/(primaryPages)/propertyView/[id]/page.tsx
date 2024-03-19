@@ -13,10 +13,10 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import Spinner from "@/components/shared/Spinner";
 
-
 interface pageProp{
     params : {id: string}
 }
+
 const PropertyView = ({params}:pageProp) => {
     const apt_id = params.id
     const {myData} = useFetch(`/apartment/${apt_id}`)
@@ -31,7 +31,7 @@ const PropertyView = ({params}:pageProp) => {
 
       
   return (
-    <div className='pt-[7rem]'>
+    <div className='pt-[7rem] font-outfit container mx-auto'>
         <Container>
             {
                 isEmpty(data) ? (
@@ -41,15 +41,22 @@ const PropertyView = ({params}:pageProp) => {
                     </div> 
                 ): (
                     <div className='space-y-6'>
-                        <div><Link href={'/'}>Back to Property Listing page</Link></div>
+                        <div className="py-3 ">
+                        <Link href={'/'} className="text-[#79007B] mt-3">
+                    <span className="mr-3 inline-flex bg-[url('/icons/back-arrow-icon.svg')] w-4 h-3" ></span> <span className="inline-flex">Back to property listings</span>
+                     </Link>
+                      </div>
+                        
                         <div>
                             <div className='flex flex-col md:flex-row justify-between md:items-center'>
                                 <p className='text-[18px] md:text-[24px] font-[700] text-[#161518]'>{data?.title}</p>
                                 <p className='text-[#8F2A91] text-[20px] font-[700]'>₦ {data?.f_price}</p>
                             </div>
-                            <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-0'>
-                                <small className='font-[400] text-[14px] text-[#6666FF]'>{data?.address}, {data?.state}. <Link href={'/'} className='underline'>Open Street View</Link></small>
-                                <small>{data?.clicks} clicks | Save | Share</small>
+                            <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-3'>
+                                <small className='font-[400] text-[14px] text-[#6666FF]'>
+                            <img src={'/icons/location-icon.svg'} alt="location_icon" className='inline-block' />
+                                    {"  "}{data?.address}, {data?.state}. <Link href={'/'} className='underline'>Open Street View</Link></small>
+                                <small><span className="inline-block mx-2">{data?.clicks} clicks</span> | {"  "}<span className="inline-block cursor-pointer"><span className="inline-block bg-[url('/icons/save-icon.svg')] w-[14px] h-[18px] -mb-1 ml-2 mr-1"></span> <span className="inline-block mr-2">Save</span></span> {" "}| <span className="inline-block cursor-pointer"><span className="inline-block ml-2 mr-1 bg-[url('/icons/share-icon.svg')] w-[18px] h-[20px] -mb-1"></span><span className="inline-block mx-2">Share</span></span></small>
                             </div>
                         </div>
                         <div className='flex flex-col lg:flex-row gap-1 w-full h-[300px] overflow-x-scroll md:h-[450px]'>
@@ -65,8 +72,16 @@ const PropertyView = ({params}:pageProp) => {
                                     )
                                 }
                             </div>
-                            <div className='w-[40%] h-full'>
-
+                            <div className='w-full sm:w-[40%] h-full'>
+                                {
+                                    data?.videos[0] ? (<video width='100%' height='100%' controls>
+                                        <source src={data?.videos[0].video} type='video/mp4' />
+                                        <source src={data?.videos[0].video} type='video/mkv' />
+                                         </video>): (<div className="flex h-full w-full items-center justify-center ">
+                                             <p>Apartment Video is currently not available  </p>
+                                         </div>
+                                         )
+                                }
                             </div>
                             <div className='flex lg:flex-col gap-1 lg:w-[30%] h-full'>
                                 {
@@ -79,6 +94,13 @@ const PropertyView = ({params}:pageProp) => {
                                         <div className='w-full lg:h-[50%]'><img src={data?.pictures[3].image} className='w-full h-full' alt=''/></div>
                                     )
                                 }
+                            </div>
+                        </div>
+
+                        <div className=' mt-5'>
+                            <div className='flex flex-row justify-between'>
+                                <div>{data?.specifications && (<div><span className='inline-block mx-2 text-lg'>{data.specifications.bedrooms} {" "} Bedrooms</span> &#x2022; <span className='inline-block mx-2 text-lg'>{data.specifications.bathrooms} {" "} Bathrooms</span> &#x2022; <span className='inline-block mx-2 text-lg'>{data.specifications.toilets} {" "} Toilets</span> | <span className='inline-block mx-2 text-lg'>Serviced</span> | <span className='inline-block mx-2 text-lg'>Not Furnished</span> </div>)}</div>
+                                <div><span className='inline-block border-b border-[#6666FF] text-lg text-[#6666FF] cursor-pointer mx-2'>Schedule a tour</span> | <span className='cursor-pointer'><span className="inline-block ml-2 mr-1 bg-[url('/icons/report-icon.svg')] w-5 h-5"></span> <span className='inline-block text-lg text-[#D97706]'><Link href="/reportListing">Report Listing</Link></span></span></div>
                             </div>
                         </div>
 

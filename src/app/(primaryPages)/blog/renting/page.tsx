@@ -11,7 +11,7 @@ import BlogNav from '@/components/blog/BlogNav'
 import FeaturedArticles from '@/components/blog/FeaturedArticles/FeaturedArticles'
 
 const Renting = () => {
-  return <div className=''>
+  return <div className='font-outfit'>
     <BlogNav />
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/rentingBlog.png" alt="renting hero image" className='relative  w-full'/>

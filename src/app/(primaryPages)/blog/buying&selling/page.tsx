@@ -13,7 +13,7 @@ const Buying = () => {
 
     
     
-  return <div className=''>
+  return <div className='font-outfit'>
     <BlogNav />
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/buyingBlog.png" alt="buying&selling hero image" className='relative  w-full'/>

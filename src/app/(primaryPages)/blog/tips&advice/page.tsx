@@ -12,7 +12,7 @@ import FeaturedArticles from '@/components/blog/FeaturedArticles/FeaturedArticle
 
 const Tips = () => {
     
-  return <div className=''>
+  return <div className='font-outfit'>
    <BlogNav />
     {/* hero component */}
     <div className='h-[515px] w-full relative flex text-center'><img src="/images/tipsBlog.png" alt="tips&sadvice hero image" className='relative  w-full'/>
