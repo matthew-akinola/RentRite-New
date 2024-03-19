@@ -99,8 +99,8 @@ const PropertyView = ({params}:pageProp) => {
 
                         <div className=' mt-5'>
                             <div className='flex flex-row justify-between'>
-                                <div>{data?.specifications && (<div><span className='inline-block mx-2 text-lg'>{data.specifications.bedrooms} {" "} Bedrooms</span> &#x2022; <span className='inline-block mx-2 text-lg'>{data.specifications.bathrooms} {" "} Bathrooms</span> &#x2022; <span className='inline-block mx-2 text-lg'>{data.specifications.toilets} {" "} Toilets</span> | <span className='inline-block mx-2 text-lg'>Serviced</span> | <span className='inline-block mx-2 text-lg'>Not Furnished</span> </div>)}</div>
-                                <div><span className='inline-block border-b border-[#6666FF] text-lg text-[#6666FF] cursor-pointer mx-2'>Schedule a tour</span> | <span className='cursor-pointer'><span className="inline-block ml-2 mr-1 bg-[url('/icons/report-icon.svg')] w-5 h-5"></span> <span className='inline-block text-lg text-[#D97706]'><Link href="/reportListing">Report Listing</Link></span></span></div>
+                                <div>{data?.specifications && (<div><small className='text-sm'><span className='inline-block mx-2'>{data.specifications.bedrooms} {" "} Bedrooms</span> &#x2022; <span className='inline-block mx-2'>{data.specifications.bathrooms} {" "} Bathrooms</span> &#x2022; <span className='inline-block mx-2'>{data.specifications.toilets} {" "} Toilets</span> | <span className='inline-block mx-2'>Serviced</span> | <span className='inline-block mx-2'>Not Furnished</span></small> </div>)}</div>
+                                <div className='text-sm'><span className='inline-block border-b border-[#6666FF] text-[#6666FF] cursor-pointer mx-2'>Schedule a tour</span> | <span className='cursor-pointer'><span className="inline-block -mb-1 ml-2 mr-1 bg-[url('/icons/report-icon.svg')] w-5 h-5"></span> <span className='inline-block text-[#D97706]'><Link href="/reportListing">Report Listing</Link></span></span></div>
                             </div>
                         </div>
 
