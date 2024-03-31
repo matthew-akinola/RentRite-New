@@ -4,8 +4,9 @@ import SearchForm from './SearchInput';
 interface iHero {
   setDisplayType: (e: any) => void
   refetchApartment: (queryParameters: { [key: string]: any }) => void
+  displayType: string
 }
-const Hero: React.FC<iHero> = ({setDisplayType, refetchApartment}) => {
+const Hero: React.FC<iHero> = ({setDisplayType, refetchApartment, displayType}) => {
   return (
     <section className="bg-hero-bg bg-cover bg-center " style={{ backgroundImage: `url(${"images/about1.jpg"})` }}>
       <div className="flex pt-[6rem]  min-h-screen gap-8 flex-col items-center justify-center px-10 md:px-0" style={{backgroundColor:'rgba(0,0,0,0.7)'}}>
@@ -15,7 +16,7 @@ const Hero: React.FC<iHero> = ({setDisplayType, refetchApartment}) => {
         <p className="text-white text-center mb-8 font-normal text-lg">
           Hassle-Free Home Finding Experience
         </p>
-        <SearchForm setDisplay={setDisplayType} refetchApartment={refetchApartment}/>
+        <SearchForm setDisplay={setDisplayType} refetchApartment={refetchApartment} display={displayType}/>
       </div>
     </section>
   );

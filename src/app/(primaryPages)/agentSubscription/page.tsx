@@ -84,7 +84,7 @@ const AgentSubscription = () => {
                     body: params,
                 })
                 .then((response) => {
-                    const value =  response
+                    console.log(response)
                     setStatus("success")
         
                 })

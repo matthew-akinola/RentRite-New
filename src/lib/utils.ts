@@ -79,3 +79,8 @@ export function formatFormData(data: Record<string, string>): string[] {
 export function isEmpty(obj:any) {
   return Object.keys(obj).length === 0;
 }
+
+export const convertStringToNumber = (input: string): number => {
+  const numericString = input.replace(/\D/g, "");
+  return Number(numericString);
+}
