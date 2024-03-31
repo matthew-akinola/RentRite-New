@@ -17,6 +17,8 @@ export async function GET ({ nextUrl }: NextRequest) {
         endpoint += `?${queryString}`;
       }
 
+      console.log("endpoint", endpoint)
+
       const response = await axios.get<DynamicObject[]>(endpoint);
       
     return NextResponse.json(response.data);

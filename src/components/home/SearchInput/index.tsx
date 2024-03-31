@@ -2,6 +2,7 @@
 import Dropdown from "@/components/shared/dropDown";
 import Modal from "@/components/shared/modal";
 import { useFetchApartment } from "@/hooks/useFetchApartment";
+import { convertStringToNumber } from "@/lib/utils";
 import { displayType } from "@/types";
 import Image from "next/image";
 import React, { useState, FormEvent } from "react";
@@ -19,11 +20,12 @@ interface Apartment {
 interface iSearchForm {
   setDisplay: (e: any) => void
   refetchApartment: (queryParameters: { [key: string]: any }) => void
+  display: string
 }
 
-const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
+const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment, display}) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [type, setType] = useState<string>("All Types");
+  const [type, setType] = useState<string>("Apartments");
   const [bedroom, setBedroom] = useState<string>("Any");
   const [minprice, setMinPrice] = useState<string>("No min price");
   const [maxprice, setMaxPrice] = useState<string>("No max price");
@@ -73,20 +75,23 @@ const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
 
   const handleSearch = async (e: FormEvent) => {
     e.preventDefault();
-    const results: Apartment[] = [];
-    setSearchResults(results);
-    // const results: Apartment[] = await apartmentsApi.getApartments(
-    //   searchQuery,
-    //   type,
-    //   bedroom,
-    //   minprice,
-    //   maxprice
-    // );
-    // setSearchResults(results);
-    window.location.href = `/search?q=${encodeURIComponent(
-      searchQuery
-    )}&type=${type}&bedroom=${bedroom}&minprice=${minprice}&maxprice=${maxprice}`;
-  };
+   
+    refetchApartment({
+      "_type" : display,
+      "search"  : searchQuery,
+      "category" : type,
+      "bedrooms" : bedroom,
+      "price_min": convertStringToNumber(minprice),
+      "price_max": convertStringToNumber(maxprice)
+    })
+
+    const apartmentListing = document.getElementById("apartmentListing");
+    if (apartmentListing) {
+      apartmentListing.scrollIntoView({ behavior: "smooth" });
+    }
+  } ;
+
+  
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -119,13 +124,18 @@ const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
   const handleDisplayTypeClicked = (value: iDisplayTypeList) => {
     console.log(value)
     if (value.value !== "Consultation") {
-      setDisplayType(value.name)
-      refetchApartment({"_type" : value.value});
-      setDisplay(value.value)
+      const searchInput = document.getElementById("heroSearch");
+      if (searchInput !== null) {
+        searchInput.focus()
+        setDisplayType(value.name)
+        setDisplay(value.value)
+      } 
+      // refetchApartment({"_type" : value.value});
     }else{
         setIsModalOpen(true)
     }
   }
+  
 
   return (
     <div className="pb-28 flex flex-col items-center">
@@ -145,21 +155,22 @@ const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
           {
             displayTypeList.map((typeName, index) => {
               return (
-                <a
-                  href={"#apartmentListing"}
+                <div
+                  // href={""}
                   key={index}
                   onClick={(e) => {
-                      e.preventDefault();
-                      const apartmentListing = document.getElementById("apartmentListing");
-                      if (apartmentListing) {
-                        apartmentListing.scrollIntoView({ behavior: "smooth" });
-                        handleDisplayTypeClicked(typeName)
-                      }
+                      handleDisplayTypeClicked(typeName)
+                      // e.preventDefault();
+                      // const apartmentListing = document.getElementById("apartmentListing");
+                      // if (apartmentListing) {
+                      //   apartmentListing.scrollIntoView({ behavior: "smooth" });
+                      //   handleDisplayTypeClicked(typeName)
+                      // }
                   }}
-                  className={`text-[1.125rem] ${typeName.name === displayType ? "font-bold" : "font-medium"} uppercase text-[#DCDBE0]`}
+                  className={`text-[1.125rem] ${typeName.name === displayType ? "font-bold" : "font-medium"} cursor-pointer uppercase text-[#DCDBE0]`}
               >
                   {typeName.name}
-              </a>
+              </div>
               )
             })
           }
@@ -176,6 +187,7 @@ const SearchForm: React.FC<iSearchForm> = ({setDisplay, refetchApartment}) => {
                 <FaSearch className="text-[#82808F]" />
             </span>
             <input
+                id="heroSearch"
                 type="search"
                 value={searchQuery}
                 onChange={handleChange}
