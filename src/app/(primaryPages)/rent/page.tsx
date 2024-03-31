@@ -64,7 +64,7 @@ const Rent = () => {
                 </div>
               </div>
 
-              <div className=''>
+              <div className='mb-16'>
                 {
                   data.length > 0?
                     <GridContainer3>
@@ -100,7 +100,7 @@ const Rent = () => {
 
             {/* paginator */}
             <div></div>
-            <div className='pt-10 pb-6'>
+            <div className='pt-10 pb-6  py-4 md:py-16 border-t border-[#E4CCE5]'>
               <BasedOnHistory3/>
             </div>
             
