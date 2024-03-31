@@ -7,6 +7,8 @@ import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
 import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { Container, GridContainer3 } from '@/components/shared/containers/container';
 import { DynamicObject } from '@/types';
+import Spinner from '@/components/shared/Spinner';
+import FilterComponent from '@/components/innerPages/explore/filterComponent';
 
 const Rent = () => {
   const {myData} = useFetchApartment()
@@ -80,9 +82,12 @@ const Rent = () => {
                       />)
                     }
                     </GridContainer3>
-                  :
-
-                  <h1>Loading Apartments....</h1>
+                  : (
+                    <div className='w-full flex flex-col justify-center items-center m-24'>
+                          <Spinner/>
+                          <p className='mt-5'>Loading Apartments....</p>
+                      </div>
+                  )
                 }
 
 
@@ -99,8 +104,9 @@ const Rent = () => {
               <BasedOnHistory3/>
             </div>
             
-          </div>    
-          <div className="basis-3/12">
+          </div>  
+          <FilterComponent/>  
+          {/* <div className="basis-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />
@@ -328,7 +334,7 @@ const Rent = () => {
                   </div>
                 </form>
               </div>
-          </div>              
+          </div>               */}
         </div>
 
       </Container>

@@ -23,7 +23,6 @@ const Home = () => {
   const [currentDisplay, setCurrentDisplay] = useState('Rent')
   const [bookmarkList, setBookMarkList] = useState<string[]>([])
 
-  console.log(fetchedApartments)
 
   const handleCategoryClick = (category : any) => {
     setSelectedCategory(category);
@@ -64,7 +63,7 @@ const Home = () => {
   return (
     <div className="w-full">
       {/* Hero Component */}
-      <Hero setDisplayType={(e) => setCurrentDisplay(e)} refetchApartment={fetchApartments}/>
+      <Hero setDisplayType={(e) => setCurrentDisplay(e)} displayType={currentDisplay} refetchApartment={fetchApartments}/>
 
       {/* Easily Navigate Section */}
       <section className="flex justify-center">

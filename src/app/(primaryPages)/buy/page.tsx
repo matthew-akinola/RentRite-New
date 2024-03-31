@@ -8,6 +8,10 @@ import { Container, GridContainer1, GridContainer3 } from '@/components/shared/c
 import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { DynamicObject } from '@/types';
 import { BsFillGridFill } from "react-icons/bs";
+import Loader from '@/components/shared/horizontalLoader';
+import Spinner from '@/components/shared/Spinner';
+import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
+import FilterComponent from '@/components/innerPages/explore/filterComponent';
 
 const Buy = () => {
   const {myData} = useFetchApartment()
@@ -67,7 +71,7 @@ const Buy = () => {
 
               <div className=''>
                 {
-                  data.length > 0?
+                  data.length > 0 ?
                   (layout === 'grid'?
 
                     <GridContainer3>
@@ -114,10 +118,12 @@ const Buy = () => {
                           
                       )}
                     </GridContainer1>                   
+                    ) :(
+                      <div className='w-full flex flex-col justify-center items-center m-24'>
+                          <Spinner/>
+                          <p className='mt-5'>Loading Apartments....</p>
+                      </div>
                     )
-                  :
-
-                  <h1>Loading Apartments....</h1>
                 }
 
 
@@ -130,8 +136,13 @@ const Buy = () => {
 
             {/* paginator */}
             <div></div>
-          </div>    
-          <div className=" hidden lg:block w-3/12">
+            <div className='pt-10 pb-6'>
+              <BasedOnHistory3/>
+            </div>
+
+          </div>
+          <FilterComponent/>
+          {/* <div className=" hidden lg:block w-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />
@@ -359,7 +370,7 @@ const Buy = () => {
                   </div>
                 </form>
               </div>
-          </div>              
+          </div>               */}
         </div>
 
       </Container>
