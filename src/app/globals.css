@@ -14,3 +14,7 @@ input[type="checkbox"]:checked{
   outline-color: #954C97;
   background-color: #954C97;
 }
+
+.help-desk_form button, .help-desk_form textarea {
+  background-color: #F4F4F5;
+}

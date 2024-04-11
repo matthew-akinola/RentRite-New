@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import Payment from "payment";
+import { RefObject, useEffect } from "react";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -84,3 +85,20 @@ export const convertStringToNumber = (input: string): number => {
   const numericString = input.replace(/\D/g, "");
   return Number(numericString);
 }
+
+
+export const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, callback: () => void): void => {
+  useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+          if (ref.current && !ref.current.contains(event.target as Node)) {
+              callback();
+          }
+      };
+
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, [ref, callback]);
+};
+
