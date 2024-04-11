@@ -15,7 +15,6 @@ function useFetch (endpoint:string){
             const res = await axios.get(url+endpoint);
             if (res) { 
               const dataArray = res?.data;
-              console.log(res?.data)
               setMydata(dataArray);
               setIsPending(false)
               setIsError(null)             
