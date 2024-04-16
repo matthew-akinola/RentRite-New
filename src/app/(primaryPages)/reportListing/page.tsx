@@ -32,7 +32,7 @@ const page = () => {
     }
 
   return (
-    <div className="pt-[97px] w-full">
+    <div className="pt-[97px] w-full font-outfit">
         <div className='text-[#000] border-t-2 border-[#E8E7EA] w-full border px-3 sm:px-12'>
            <div className="py-3 ">
             <Link href={'/'} className="text-[#79007B] mt-3">

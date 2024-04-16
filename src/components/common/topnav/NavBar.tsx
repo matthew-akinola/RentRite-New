@@ -101,7 +101,7 @@ const NavBar = () => {
                         <div className=' flex w-full justify-between items-center'>
                         <div>
                         <Link href='/'>
-                            <img src={"/logo.svg"} className='h-[50px] w-[50px]' alt="jkkk" />
+                            <img src={"/logo.svg"} className='h-[60px] w-[60px]' alt="jkkk" />
                         </Link>
                             </div>
                         <ul className='lg:flex gap-8 hidden'>

@@ -8,9 +8,10 @@ function useFetch (endpoint:string){
     const [myData, setMydata] = useState([]);
     const [isPending, setIsPending] = useState(true)
     const [isError, setIsError] = useState(null)
+    
 
     useEffect(() => {
-        const post = async () => {
+        const get = async () => {
           try {
             const res = await axios.get(url+endpoint);
             if (res) { 
@@ -28,13 +29,14 @@ function useFetch (endpoint:string){
           }
         }
       
-        post();
+        get();
     }, []);
 
     return {
         myData,
         isError,
         isPending
+
     }
 }
 

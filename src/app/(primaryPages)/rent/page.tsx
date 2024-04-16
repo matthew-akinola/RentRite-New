@@ -1,26 +1,40 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+// import MainLayout from '../../layouts/MainLayout'
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FaBars, FaSearch, FaPlus } from "react-icons/fa";
-import {ApartmentCards} from '@/components/shared/others/cards';
-import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
+import ApartmentSlide, {ApartmentCards} from '@/components/shared/others/cards';
+import { Container, GridContainer1, GridContainer3 } from '@/components/shared/containers/container';
 import {useFetchApartment} from '@/hooks/useFetchApartment';
-import { Container, GridContainer3 } from '@/components/shared/containers/container';
 import { DynamicObject } from '@/types';
+import { BsFillGridFill } from "react-icons/bs";
+import Loader from '@/components/shared/horizontalLoader';
+import Spinner from '@/components/shared/Spinner';
+import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
+import FilterComponent from '@/components/innerPages/explore/filterComponent';
 
 const Rent = () => {
-  const {myData} = useFetchApartment()
+  const type = 'Rent'
+  const {isPending, myData} = useFetchApartment()
+  const [layout, setLayout] = useState('grid')
   const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
+
+
+  console.log(data)
   
   useEffect(()=>{
-    setData((myData))
+    if(myData){
+      const filteredData = myData?.filter((i)=>i._type === type)
+      setData(filteredData)      
+    }
+
   },[myData])
 
   return (
       <Container>
-        <div className='flex w-full gap-10'>
-          <div className='basis-9/12'>
+        <div className='flex w-full gap-10 relative'>
+          <div className='w-full lg:w-9/12'>
             {/* active tab */}
             <div className='space-x-4'>
               <span>BUY</span>
@@ -48,26 +62,29 @@ const Rent = () => {
 
             {/* Appartment container */}
             <div>
-              <div className='flex justify-between items-center'>
-              <h1 className="text-2xl font-bold text-[#161518] mb-7">
-              Properties for <span className="text-[#A655A7] ">Rent</span> in
-              “Nigeria”
-            </h1>
+              <div className='flex justify-between items-center py-4'>
+                <h1 className="text-lg md:text-2xl font-bold text-[#161518] lg:mb-7">
+                  Properties for <span className="text-[#A655A7] ">Rent</span> in
+                  “Nigeria”
+                </h1>
             {/* <button className="cursor-pointer">
               <FaBars size={23} />
             </button> */}
-                <div>
-                  <button>grid</button>
-                  <button>layout</button>
+                <div className='block space-x-4'>
+                  <button className={`${layout==='grid' && 'text-[#A655A7]'}`} onClick={()=>setLayout('grid')}><BsFillGridFill  size={22}/></button>
+                  <button className={`${layout==='slide' && 'text-[#A655A7]'}`} onClick={()=>setLayout('slide')}><FaBars size={22}/></button>
                 </div>
               </div>
 
-              <div className=''>
+              <div className='mb-16'>
                 {
-                  data.length > 0?
+                  data.length > 0 ?
+                  (layout === 'grid'?
+
                     <GridContainer3>
                     {
-                      data.slice(0,6)?.map((apt:any, ind:any)=>
+                      data.slice(0,6)?.map((apt, ind)=>{
+                        return(
                           <ApartmentCards 
                           key={ind}
                           img={apt.pictures[0]?.image}
@@ -77,12 +94,48 @@ const Rent = () => {
                           like={apt.like}
                           type={apt.category}
                           agent={apt.agent.name}
-                      />)
-                    }
+                          url_id={apt.id}
+                        />
+                        )
+                      }
+                          
+                      )}
                     </GridContainer3>
-                  :
-
-                  <h1>Loading Apartments....</h1>
+                    :
+                    <GridContainer1>
+                    {
+                      data.slice(0,4)?.map((apt, ind)=>{
+                        return(
+                          <ApartmentSlide
+                          key={ind}
+                          img={apt.pictures[0]?.image}
+                          location={apt.address}
+                          price={apt.f_price}
+                          title={apt.title}
+                          like={apt.like}
+                          type={apt.category}
+                          agent={apt.agent.name}
+                          desc={apt.descriptions}
+                          date={apt.created_at}
+                          toilet={apt.specifications?.toilets}
+                          bathroom={apt.specifications?.bathrooms}
+                          bedroom={apt.specifications?.bedrooms}
+                        />
+                        )
+                      }
+                          
+                      )}
+                    </GridContainer1>                   
+                    ) : isPending?(
+                      <div className='w-full flex flex-col justify-center items-center'>
+                          <Spinner/>
+                          <p className='mt-5'>Loading Apartments....</p>
+                      </div>
+                    ): (
+                      <div className='w-full flex flex-col justify-center items-center'>
+                          <p className='mt-5 font-[500]'>No Property found</p>
+                      </div>                      
+                    )
                 }
 
 
@@ -95,12 +148,18 @@ const Rent = () => {
 
             {/* paginator */}
             <div></div>
-            <div className='pt-10 pb-6'>
+            <div className='pt-10 pb-6 py-4 md:py-16 border-t border-[#E4CCE5]'>
+              
               <BasedOnHistory3/>
             </div>
-            
-          </div>    
-          <div className="basis-3/12">
+
+          </div>
+
+          <div className='hidden lg:block'>
+            <FilterComponent/>
+          </div>
+          
+          {/* <div className=" hidden lg:block w-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />
@@ -328,7 +387,7 @@ const Rent = () => {
                   </div>
                 </form>
               </div>
-          </div>              
+          </div>               */}
         </div>
 
       </Container>

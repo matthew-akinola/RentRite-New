@@ -23,17 +23,20 @@ const Home = () => {
   const [currentDisplay, setCurrentDisplay] = useState('Rent')
   const [bookmarkList, setBookMarkList] = useState<string[]>([])
 
-  console.log(fetchedApartments)
 
   const handleCategoryClick = (category : any) => {
     setSelectedCategory(category);
     setApartmentsToShow(8);
   };
 
+  console.log(fetchedApartments)
+
   const subMenu = ["All", ...Array.from(new Set(fetchedApartments.map((apartment) => apartment.category)))];
   const filteredApartments = fetchedApartments.filter(
     (apartment) => selectedCategory === "All" || apartment.category === selectedCategory
   );
+
+  console.log(filteredApartments)
   const apartments = filteredApartments.slice(0, apartmentsToShow);
 
   const handleLoadMore = () => {
@@ -64,7 +67,7 @@ const Home = () => {
   return (
     <div className="w-full">
       {/* Hero Component */}
-      <Hero setDisplayType={(e) => setCurrentDisplay(e)} refetchApartment={fetchApartments}/>
+      <Hero setDisplayType={(e) => setCurrentDisplay(e)} displayType={currentDisplay} refetchApartment={fetchApartments}/>
 
       {/* Easily Navigate Section */}
       <section className="flex justify-center">
@@ -113,11 +116,11 @@ const Home = () => {
             {subMenu.map((category) => (
               <button
                 key={category}
-                className={`px-2 md:px-5 pb-2 transition duration-500 ${
+                className={`px-2 md:px-5 pb-2 transition duration-500 border bg-[#f4f4f4] lg:border-0 rounded-lg ${
                   ((filteredApartments !== fetchedApartments &&
                     category === selectedCategory) ||
                     (filteredApartments === fetchedApartments && category === "All")) &&
-                  "border-b-4 border-indigo-200 border-b-primary"
+                  "lg:border-b-4 border-indigo-200 bg-primary lg:border-b-primary"
                 }`}
                 onClick={() => handleCategoryClick(category)}
               >
@@ -125,6 +128,7 @@ const Home = () => {
               </button>
             ))}
           </div>
+
           {!isPending && apartments.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 py-3 gap-y-10 gap-x-6 lg:grid-cols-4 sm:content-center">
               {apartments.map((apartment, index) => (

@@ -18,7 +18,7 @@ interface GridContainerProps {
 
 export const GridContainer1: React.FC<GridContainerProps> = ({ children }) => {
   return (
-    <div className="grid grid-cols-1 gap-[2rem]">
+    <div className="grid grid-cols-1 gap-[3rem]">
       {children}
     </div>
   );

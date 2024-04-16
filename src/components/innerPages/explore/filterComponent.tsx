@@ -1,5 +1,5 @@
 import SearchInput from '@/components/shared/searchInput';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiOutlineCheck, AiOutlinePlusCircle } from 'react-icons/ai';
 
 function FilterComponent() {
@@ -11,13 +11,38 @@ function FilterComponent() {
   const [selectedVerification, setSelectedVerification] = useState<string[]>([])
   const [searchLocationValue, setSearchLocationValue] = useState('')
 
+  const initialLocations = new Set(['Kubwa', 'Bwari', 'Wuse', 'Maitama', 'Ikeja']);
+  const [locations, setLocations] = useState(initialLocations)
+  
   const handleCheckboxClick = (location: string, value: string[], setValue: ([]) => void) => {
     if (value.includes(location)){
       setValue(value.filter(x => x !== location))
     }else{
       setValue([...value , location])
     }
+  } 
+  
+  
+  const handleAddLocation = () => {
+    const storedLocations = localStorage.getItem("locations");
+    const localLocations = storedLocations ? JSON.parse(storedLocations) : [];
+    console.log(searchLocationValue)
+    const updatedLocationsSet = new Set([...Array.from(locations), ...localLocations, searchLocationValue]);
+    setLocations(updatedLocationsSet)
+
+    // Convert the set back to an array
+    const updatedLocations = Array.from(updatedLocationsSet);
+
+    // Update the local storage with the updated array of locations
+    localStorage.setItem('locations', JSON.stringify(updatedLocations));
   }
+
+  useEffect(() => {
+      const storedLocations = localStorage.getItem("locations");
+      const localLocations = storedLocations ? JSON.parse(storedLocations) : [];
+      const updatedLocationsSet = new Set ([...Array.from(locations), ...localLocations])
+      setLocations(updatedLocationsSet)
+  }, [])
 
   return (
     <div className="">
@@ -31,7 +56,7 @@ function FilterComponent() {
 
         <div className="mt-4">
             {
-              ['Kubwa', 'Bwari', 'Wuse', 'Maitama', 'Ikeja'].map((location, index) => (
+              Array.from(locations).map((location, index) => (
                 <div className={`flex space-x-3 items-center mb-2 py-2 px-4 ${selectedLocation.includes(location)  ? "bg-purple-200 text-primary fill-primary rounded-md" : ""}`} onClick={() =>  handleCheckboxClick(location, selectedLocation, setSelectedLocation)} key={index}>
                   <input type="checkbox" checked={selectedLocation.includes(location) ? true : false} name="" id="" className="w-4 h-4 accent-pur" />
                   <label htmlFor="">{location}</label>
@@ -39,16 +64,16 @@ function FilterComponent() {
               ))
             }
           <div className="p-1 flex shadow-lg items-center mt-4">
-           <SearchInput
-              className='!gap-x-3'
-              placeholder='Add a Location'
-              value={searchLocationValue}
-              setValue={(e) => setSearchLocationValue(e)}
-              label='Add'
-              handleSubmit={() => ("/")}
-              icon = {<AiOutlinePlusCircle className='text-gray-400' />}
-              inputClassName=' min-w-[70px] placeholder:text-sm text-sm'
-           />
+          <SearchInput
+            className='!gap-x-3'
+            placeholder='Add a Location'
+            value={searchLocationValue}
+            setValue={(e) => setSearchLocationValue(e)}
+            label='Add'
+            handleSubmit={() => handleAddLocation()}
+            icon = {<AiOutlinePlusCircle className='text-gray-400' />}
+            inputClassName=' min-w-[70px] placeholder:text-sm text-sm'
+          />
           </div>
         </div>
       </div>

@@ -8,22 +8,33 @@ import { Container, GridContainer1, GridContainer3 } from '@/components/shared/c
 import {useFetchApartment} from '@/hooks/useFetchApartment';
 import { DynamicObject } from '@/types';
 import { BsFillGridFill } from "react-icons/bs";
+import Loader from '@/components/shared/horizontalLoader';
+import Spinner from '@/components/shared/Spinner';
+import BasedOnHistory3 from '@/components/home/BasedOnHistory3';
+import FilterComponent from '@/components/innerPages/explore/filterComponent';
 
 const Buy = () => {
-  const {myData} = useFetchApartment()
+  const type = 'Buy'
+  const {isPending,myData} = useFetchApartment()
   const [layout, setLayout] = useState('grid')
   const [data, setData] = useState<DynamicObject[]>([])
   const [searchQuery, setSearchQuery] = useState("");
+
+
+  console.log(data)
   
   useEffect(()=>{
-    setData((myData))
-    console.log(data)
+    if(myData){
+      const filteredData = myData?.filter((i)=>i._type === type)
+      setData(filteredData)      
+    }
+
   },[myData])
 
   return (
       <Container>
-        <div className='flex w-full gap-10'>
-          <div className=' w-full lg:w-9/12'>
+        <div className='flex w-full gap-10 relative'>
+          <div className='w-full lg:w-9/12'>
             {/* active tab */}
             <div className='space-x-4'>
               <span>BUY</span>
@@ -53,21 +64,21 @@ const Buy = () => {
             <div>
               <div className='flex justify-between items-center'>
               <h1 className="text-lg md:text-2xl font-bold text-[#161518] mb-7">
-              Properties for <span className="text-[#A655A7] ">Rent</span> in
+              Properties for <span className="text-[#A655A7] ">Sales</span> in
               “Nigeria”
             </h1>
             {/* <button className="cursor-pointer">
               <FaBars size={23} />
             </button> */}
                 <div className='hidden md:block space-x-4'>
-                  <button onClick={()=>setLayout('grid')}><BsFillGridFill color='#A655A7' size={25}/></button>
-                  <button onClick={()=>setLayout('slide')}><FaBars size={25}/></button>
+                  <button className={`${layout==='grid' && 'text-[#A655A7]'}`} onClick={()=>setLayout('grid')}><BsFillGridFill  size={25}/></button>
+                  <button className={`${layout==='slide' && 'text-[#A655A7]'}`} onClick={()=>setLayout('slide')}><FaBars size={25}/></button>
                 </div>
               </div>
 
-              <div className=''>
+              <div className='mb-16'>
                 {
-                  data.length > 0?
+                  data.length > 0 ?
                   (layout === 'grid'?
 
                     <GridContainer3>
@@ -93,31 +104,38 @@ const Buy = () => {
                     :
                     <GridContainer1>
                     {
-                      data.slice(0,6)?.map((apt, ind)=>{
+                      data.slice(0,4)?.map((apt, ind)=>{
                         return(
                           <ApartmentSlide
                           key={ind}
                           img={apt.pictures[0]?.image}
-                          location={apt.short_address}
+                          location={apt.address}
                           price={apt.f_price}
                           title={apt.title}
                           like={apt.like}
                           type={apt.category}
                           agent={apt.agent.name}
-                          desc={apt.description}
-                          toilet={apt.specifications.toilets}
-                          bathroom={apt.specifications.bathrooms}
-                          bedroom={apt.specifications.bedrooms}
+                          desc={apt.descriptions}
+                          date={apt.created_at}
+                          toilet={apt.specifications?.toilets}
+                          bathroom={apt.specifications?.bathrooms}
+                          bedroom={apt.specifications?.bedrooms}
                         />
                         )
                       }
                           
                       )}
                     </GridContainer1>                   
+                    ) : isPending?(
+                      <div className='w-full flex flex-col justify-center items-center'>
+                          <Spinner/>
+                          <p className='mt-5'>Loading Apartments....</p>
+                      </div>
+                    ): (
+                      <div className='w-full flex flex-col justify-center items-center'>
+                          <p className='mt-5 font-[500]'>No Property found</p>
+                      </div>                      
                     )
-                  :
-
-                  <h1>Loading Apartments....</h1>
                 }
 
 
@@ -130,8 +148,18 @@ const Buy = () => {
 
             {/* paginator */}
             <div></div>
-          </div>    
-          <div className=" hidden lg:block w-3/12">
+            <div className='pt-10 pb-6 py-4 md:py-16 border-t border-[#E4CCE5]'>
+              
+              <BasedOnHistory3/>
+            </div>
+
+          </div>
+
+          <div className='hidden lg:block'>
+            <FilterComponent/>
+          </div>
+          
+          {/* <div className=" hidden lg:block w-3/12">
               <h2 className="mb-10 text-[#280029] text-lg flex items-center">
                 Filter by
                 <MdOutlineKeyboardArrowDown size={20} />
@@ -359,7 +387,7 @@ const Buy = () => {
                   </div>
                 </form>
               </div>
-          </div>              
+          </div>               */}
         </div>
 
       </Container>

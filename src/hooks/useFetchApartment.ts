@@ -8,10 +8,12 @@ export const useFetchApartment = () => {
   const [isPending, setIsPending] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
 
+  const base_url = process.env.BASE_URL
+
   const fetchApartments = async (queryParameters: { [key: string]: any } = {}) => {
     try {
       setIsPending(true);
-      let url = '/api/apartments';
+      let url = 'https://rentrite-homes.up.railway.app/api/v1/apartment';
       if (Object.keys(queryParameters).length > 0) {
         const queryString = Object.keys(queryParameters).map(key => `${key}=${queryParameters[key]}`).join('&');
         url += `?${queryString}`;
