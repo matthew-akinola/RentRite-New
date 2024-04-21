@@ -10,7 +10,7 @@ export async function GET ({ nextUrl }: NextRequest) {
 
   try {
     
-    let endpoint = url + "/apartment/";
+    let endpoint = url + "/apartment";
               
       if (nextUrl.searchParams.size > 0) {
         const queryString = Array.from(nextUrl.searchParams).map(([key, value]) => `${key}=${value}`).join('&');
