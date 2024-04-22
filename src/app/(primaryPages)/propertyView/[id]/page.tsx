@@ -19,6 +19,7 @@ import ImageGrid from '@/components/shared/ImageGrid'
 interface pageProp{
     params : {id: string}
 }
+
 const PropertyView = ({params}:pageProp) => {
     const apt_id = params.id
     const {myData} = useFetch(`/apartment/${apt_id}`)

@@ -74,6 +74,10 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      fontFamily:{
+        outfit: ['var(--font-outfit)']
+      }
+      ,
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

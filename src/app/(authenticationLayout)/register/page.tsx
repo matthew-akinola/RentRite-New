@@ -8,6 +8,7 @@ import PasswordInput from '@/components/shared/inputs/PasswordInput'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import Link  from 'next/link'
 
 const SignUp = () => {
 
@@ -187,9 +188,15 @@ const SignUp = () => {
 
                 {/* <a href="/welcomeBack"> */}
                     <div  className='w-full'>
-                    <PryButton type='submit' width={'100%'} name={'Register'} />
+                    <PryButton type='submit' width={'100%'} name={'SignUp'} />
                     </div>
                 {/* </a> */}
+                <div className='flex flex-row text-sm'>
+                <input type="checkbox" />
+                  <p className='pl-5'>
+                    By signing up, you have agreed to the <span className=' text-[#8F2A91] font-medium'><Link href='./privacypolicy' target='_blank'>Privacy Policies</Link></span> and <span className='text-[#8F2A91] font-medium'><Link href='./terms&conditions' target='_blank'>Terms & Conditions</Link></span> of Rentrite
+                  </p>
+                </div>
             </form>
             </div>
         </div>

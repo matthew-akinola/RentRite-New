@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "@/app/globals.css";
 import NavBar from "@/components/common/topnav/NavBar";
 import Footer from "@/components/common/footer/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit'});
 
 export const metadata: Metadata = {
   title: "Rentrite",
@@ -22,7 +24,7 @@ export default function RootLayout({
       <header className="bg-white">
         <NavBar/>
       </header>
-      <main className={`${inter.className} bg-white`}>{children}</main>
+      <main className={`${outfit.variable} bg-white`}>{children}</main>
       <Footer/>
       </body>
     </html>
