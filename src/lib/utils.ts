@@ -103,3 +103,22 @@ export const useClickOutside = <T extends HTMLElement>(ref: RefObject<T>, callba
   }, [ref, callback]);
 };
 
+export function formatReadableDate(isoDateString: string): string {
+  
+  const date = new Date(isoDateString);
+
+ 
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZoneName: 'short'
+  });
+
+  
+  return dateFormatter.format(date);
+}
+
