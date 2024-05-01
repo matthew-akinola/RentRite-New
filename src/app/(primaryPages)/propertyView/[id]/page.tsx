@@ -5,13 +5,39 @@ import {  ApartmentShortCards } from '@/components/shared/others/cards'
 import { HeaderTextSM } from '@/components/shared/typographs/Typo'
 import useFetch from '@/hooks/useFetch'
 import { useFetchApartment } from '@/hooks/useFetchApartment'
-import { isEmpty } from '@/lib/utils'
+import { formatReadableDate, isEmpty } from '@/lib/utils'
 import { DynamicObject } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react'
 import Spinner from "@/components/shared/Spinner";
+import { ChevronLeft, MapPin } from 'lucide-react'
+import ImageGrid from '@/components/shared/ImageGrid'
+import { CiDiscount1, CiHeart } from 'react-icons/ci'
+import { MdOutlineBedroomChild } from 'react-icons/md'
+import { FaBath, FaToilet, FaToiletPaper } from 'react-icons/fa'
+import { TbDiscount2 } from 'react-icons/tb'
+import { Button } from '@/components/ui/button'
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "@/components/ui/card"
+  import { Input } from "@/components/ui/input"
+  import { Label } from "@/components/ui/label"
+  import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger,
+  } from "@/components/ui/tabs"
+import MultimediaModal from '@/components/shared/multimediaModal'
+import { staticData } from './data'
+
 
 interface pageProp{
     params : {id: string}
@@ -23,16 +49,34 @@ const PropertyView = ({params}:pageProp) => {
     const [data, setData] = useState<any>({})
     const [similar, setSimilar] = useState<any>({})
     // const [similar, setData] = useState<any>({})
+    const [showContacts, setShowContacts] = useState<boolean>(false)
+    const [selectedTab, setSelectedTab] = useState('Details');
+    const [isMutiMediaModalOpen, setMutiMediaModalOpen] = useState(false)
 
     useEffect(()=>{
-      setData((myData))
+      // update the media
+      let tempData : DynamicObject = []
+      if(Object.values(myData).length > 0) {
+          tempData = {
+           ...myData,
+           videos: [
+               'https://static.vecteezy.com/system/resources/previews/002/410/964/mp4/several-prismatic-bokeh-flickering-video.mp4'
+           ]
+         }
+      }
+      setData(tempData)
     },[myData])
 
 
+    const router = useRouter();
+
+
+    
+
       
   return (
-    <div className='pt-[7rem] font-outfit container mx-auto'>
-        <Container>
+    <div className='pt-[7rem]'>
+        <div className="flex w-full justify-center">
             {
                 isEmpty(data) ? (
                     <div className="w-full flex flex-col justify-center items-center p-20">
@@ -40,236 +84,363 @@ const PropertyView = ({params}:pageProp) => {
                         <p className="mt-5">loading...</p>
                     </div> 
                 ): (
-                    <div className='space-y-6'>
-                        <div className="py-3 ">
-                        <Link href={'/'} className="text-[#79007B] mt-3">
-                    <span className="mr-3 inline-flex bg-[url('/icons/back-arrow-icon.svg')] w-4 h-3" ></span> <span className="inline-flex">Back to property listings</span>
-                     </Link>
-                      </div>
-                        
-                        <div>
-                            <div className='flex flex-col md:flex-row justify-between md:items-center'>
-                                <p className='text-[18px] md:text-[24px] font-[700] text-[#161518]'>{data?.title}</p>
-                                <p className='text-[#8F2A91] text-[20px] font-[700]'>₦ {data?.f_price}</p>
-                            </div>
-                            <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-3'>
-                                <small className='font-[400] text-[14px] text-[#6666FF]'>
-                            <img src={'/icons/location-icon.svg'} alt="location_icon" className='inline-block' />
-                                    {"  "}{data?.address}, {data?.state}. <Link href={'/'} className='underline'>Open Street View</Link></small>
-                                <small><span className="inline-block mx-2">{data?.clicks} clicks</span> | {"  "}<span className="inline-block cursor-pointer"><span className="inline-block bg-[url('/icons/save-icon.svg')] w-[14px] h-[18px] -mb-1 ml-2 mr-1"></span> <span className="inline-block mr-2">Save</span></span> {" "}| <span className="inline-block cursor-pointer"><span className="inline-block ml-2 mr-1 bg-[url('/icons/share-icon.svg')] w-[18px] h-[20px] -mb-1"></span><span className="inline-block mx-2">Share</span></span></small>
+                    <div className='w-full flex justify-center flex-col items-center'>
+                        <MultimediaModal isOpen={isMutiMediaModalOpen} onClose={() => setMutiMediaModalOpen(false)} data={data} />
+
+                        <div className='bg-gray-200 w-full flex justify-center'>
+                            <div className='container relative w-full py-2 max-w-[1700px] overflow-x-hidden px-[1.5rem] md:px-[3.5rem] lg:px-[5rem] xl:px-[7.5rem]'>
+                                <p className='text-[1.5rem] font-[500]'>
+                                    {data.category}
+                                </p>
                             </div>
                         </div>
-                        <div className='flex flex-col lg:flex-row gap-1 w-full h-[300px] overflow-x-scroll md:h-[450px]'>
-                            <div className='flex md:flex-col flex-row gap-1 md:w-[30%] h-full'>
-                                {
-                                    data?.pictures[0] && (
-                                        <div className='w-full md:h-[50%]'><img src={data?.pictures[0].image} className='w-full h-full' alt=''/></div>
-                                    )
-                                }
-                                {
-                                    data?.pictures[1] && (
-                                        <div className='w-full md:h-[50%]'><img src={data?.pictures[1].image} className='w-full h-full' alt=''/></div>
-                                    )
-                                }
+                        <div className='container relative  mb-32 w-full max-w-[1700px] overflow-x-hidden h-min px-[1.5rem] md:px-[3.5rem] lg:px-[5rem] xl:px-[7.5rem]'>
+                            <div className='border-[1px] mt-4 px-3 py-2 mb-5'>
+                                <div  onClick={() => {
+                                    router.back();
+                                }} className='text-decoration flex gap-x-3'>
+                                    <ChevronLeft />
+                                    <p className='text-sm underline'>Back to Property Listing page</p>    
+                                </div>
                             </div>
-                            <div className='w-full sm:w-[40%] h-full'>
-                                {
-                                    data?.videos[0] ? (<video width='100%' height='100%' controls>
-                                        <source src={data?.videos[0].video} type='video/mp4' />
-                                        <source src={data?.videos[0].video} type='video/mkv' />
-                                         </video>): (<div className="flex h-full w-full items-center justify-center ">
-                                             <p>Apartment Video is currently not available  </p>
-                                         </div>
-                                         )
-                                }
-                            </div>
-                            <div className='flex lg:flex-col gap-1 lg:w-[30%] h-full'>
-                                {
-                                    data?.pictures[2] && (
-                                        <div className='w-full lg:h-[50%]'><img src={data?.pictures[2].image} className='w-full h-full' alt=''/></div>
-                                    )
-                                }
-                                {
-                                    data?.pictures[3] && (
-                                        <div className='w-full lg:h-[50%]'><img src={data?.pictures[3].image} className='w-full h-full' alt=''/></div>
-                                    )
-                                }
-                            </div>
-                        </div>
-
-                        <div className=' mt-5'>
-                            <div className='flex flex-row justify-between'>
-                                <div>{data?.specifications && (<div><small className='text-sm'><span className='inline-block mx-2'>{data.specifications.bedrooms} {" "} Bedrooms</span> &#x2022; <span className='inline-block mx-2'>{data.specifications.bathrooms} {" "} Bathrooms</span> &#x2022; <span className='inline-block mx-2'>{data.specifications.toilets} {" "} Toilets</span> | <span className='inline-block mx-2'>Serviced</span> | <span className='inline-block mx-2'>Not Furnished</span></small> </div>)}</div>
-                                <div className='text-sm'><span className='inline-block border-b border-[#6666FF] text-[#6666FF] cursor-pointer mx-2'>Schedule a tour</span> | <span className='cursor-pointer'><span className="inline-block -mb-1 ml-2 mr-1 bg-[url('/icons/report-icon.svg')] w-5 h-5"></span> <span className='inline-block text-[#D97706]'><Link href="/reportListing">Report Listing</Link></span></span></div>
-                            </div>
-                        </div>
-
-                        <div className='flex gap-10'>
-
-                            <div className='w-full md:w-3/4 space-y-6 border-t pt-8'>
+                            <div className="grid-col-1 container relative grid w-full max-w-[1700px] grid-rows-2  justify-between px-container-base py-[1rem] md:grid-cols-[0.7fr_0.3fr] lg:grid-rows-1 lg:px-container-lg xl:px-container-xl gap-x-7">
                                 <div>
-                                    <p>Property Details</p>
-                                    <p className='text-[#565560]'>{data?.descriptions}</p>
-                                </div>
-                                <div className='bg-[#F3F3F4] p-3'>
-                                    <div className='flex justify-between items-center'>
-                                        <p>Property Details</p>
-                                        <Link href={'/'}>View More property Listings from this publisher</Link>
-                                    </div>
-                                    <div>
-                                        <p className='text-[#565560]'>{data?.agent?.name}</p>
-                                        <p className='text-[#565560]'>2204 kado bimko estate, gwarimpa, Abuja.</p>
-                                        <p className='text-[#565560]'><span>08011223344</span> <button></button></p>
-                                        <p className='text-[#565560]'>Registered 09 - 11 - 2020</p>
-                                        <p className='text-[#565560]'><Link href={'/'}>{data?.agent?.is_verified ? 'Verified agent' : 'Not Verified Agent'}</Link> </p>
-                                    </div>
-
-                                    <p className='text-[#565560]'></p>
-                                </div>
-                                <div className='bg-[#FCDFC4] p-3 space-y-4'>
-                                    <p>Disclaimer</p>
-                                    <p className='text-[#565560]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam facere error harum saepe at non, sit esse. Voluptatibus, vero ipsa. Reiciendis, temporibus autem. Deserunt aperiam sequi voluptatum quaerat est reiciendis vitae sunt modi obcaecati facere quae vel accusamus praesentium ipsa hic corporis nisi ad, laudantium eligendi. Repudiandae minus, facilis similique quia, ipsum dicta dolorum debitis non adipisci consequuntur ut aperiam!</p>
-                                </div>
-                            </div>
-                            <div className='hidden md:block w-1/4 shadow-xl pt-8'>
-                                <div>
-                                    <div className='bg-[#79007B] p-3 '>
-                                        <p className='text-[#FBFBFC] text-center'>Sell, Rent or Buy a property now</p>
-                                    </div>
-                                    <div className='p-6 space-y-6'>
-                                        <div className='flex justify-between items-center'>
-                                            <button>Buy</button>
-                                            <button>Rent</button>
-                                            <button>Sell</button>
-                                        </div>
-
                                         <div>
-                                            <input className='p-2 border w-full rounded-md outline-none' type="text" placeholder='Enter a location' />
+                                            <div className='flex flex-col md:flex-row justify-between md:items-center'>
+                                                <p className='text-[18px] md:text-[24px] font-[700] text-[#161518]'>{data?.title}</p>
+                                                <p className='text-[#8F2A91] text-[20px] font-[700]'>₦ {data?.f_price}</p>
+                                            </div>
+                                            <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-0'>
+                                                {/* <small className='font-[400] text-[14px] text-gray-500 flex gap-x-3 mb-2'>
+                                                    <MapPin />
+                                                    {data?.address}, {data?.state}.
+                                                </small> */}
+                                                {/* <small>{data?.clicks} clicks | Save | Share</small> */}
+                                            </div>
                                         </div>
+                                        <div className='flex flex-col lg:flex-row gap-1 w-full '>
+                                            <ImageGrid
+                                                data={data}
+                                                isMutiMediaModalOpen={isMutiMediaModalOpen}
+                                                setMutiMediaModalOpen={setMutiMediaModalOpen}
+                                            />
+                                            {/* <div className='flex md:flex-col flex-row gap-1 md:w-[30%] h-full'>
+                                                {
+                                                    data?.pictures[0] && (
+                                                        <div className='w-full md:h-[50%]'><img src={data?.pictures[0].image} className='w-full h-full' alt=''/></div>
+                                                    )
+                                                }
+                                                {
+                                                    data?.pictures[1] && (
+                                                        <div className='w-full md:h-[50%]'><img src={data?.pictures[1].image} className='w-full h-full' alt=''/></div>
+                                                    )
+                                                }
+                                            </div>
+                                            <div className='w-[40%] h-full'>
 
-                                        <div className='space-y-4'>
-                                            <div>
-                                                <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                </select>
                                             </div>
-                                            <div>
-                                                <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                </select>
-                                            </div>
-                                            <div>
-                                                <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                    <option value="">Hello</option>
-                                                </select>
+                                            <div className='flex lg:flex-col gap-1 lg:w-[30%] h-full'>
+                                                {
+                                                    data?.pictures[2] && (
+                                                        <div className='w-full lg:h-[50%]'><img src={data?.pictures[2].image} className='w-full h-full' alt=''/></div>
+                                                    )
+                                                }
+                                                {
+                                                    data?.pictures[3] && (
+                                                        <div className='w-full lg:h-[50%]'><img src={data?.pictures[3].image} className='w-full h-full' alt=''/></div>
+                                                    )
+                                                }
+                                            </div> */}
+                                        </div>
+                                        {/* <ImListNumbered /> */}
+                                        {
+                                            Object.values(data.specifications).length > 0 && (
+                                                <div className='border mt-3 flex '>
+                                                    {
+                                                            Object.entries(data.specifications).map(([key, value] : any, index : number) => {
+                                                                const width = 100/Object.values(data.specifications).length
+                                                                const icon = (value: string ) => {
+                                                                    const dIcon : Record<string, React.ReactNode> = {
+                                                                        size: <TbDiscount2 className='text-[1.5rem] text-gray-500'/>, 
+                                                                        toilets: <FaToiletPaper className='text-[1.5rem] text-gray-500' />,
+                                                                        bedrooms: <MdOutlineBedroomChild className='text-[1.5rem] text-gray-500' />,
+                                                                        bathrooms: <FaBath className='text-[1.5rem] text-gray-500'/>,
+                                                                    }
+                                                                    return dIcon[value]
+                                                                }
+                                                                return(
+                                                                    <div className={`flex flex-col justify-center items-center py-3 ${index !== Object.entries(data.specifications).length - 1 ? 'border-r' : ''}`} key={index} style={{
+                                                                        width: `${width}%`
+                                                                    }}>
+                                                                        <span>{icon(key)}</span>
+                                                                        <span className='flex items-center '>
+                                                                            <p className='capitalize'>{key}</p>:<p className='font-[500] text-[1rem] ml-2'>{value}</p>
+                                                                        </span>
+                                                                    </div>
+                                                                )
+                                                            })
+
+                                                    }
+                                                    </div>
+
+                                            )
+                                        }
+
+                                        <div className='border py-3 mt-4 border-[1px] border-gray-300 w-full flex items-center justify-center'>
+                                            <span className='flex text-red-400 items-center'>
+                                                <CiHeart className='text-[1.3rem] mr-4'/>
+                                                <p>Save</p>
+                                            </span>
+                                        </div>
+                                        <div className=' py-3 mt-4 bg-gray-200 w-full flex flex-col items-center justify-center'>
+                                            <p>Interested in this Property?</p>
+                                                {
+                                                    !showContacts ? (
+                                                        <span className='flex items-center mt-3'>
+                                                            <p>Call <span className='text-[1.4rem] font-[500]'>0805 XXXX</span> </p>
+                                                            <Button className='bg-red-600 text-white ml-3' onClick={() => setShowContacts(true)}>
+                                                                Show Phone
+                                                            </Button>
+                                                        </span>
+
+                                                    ): (
+                                                        <span className='flex items-center mt-3'>
+                                                            <p>
+                                                                Call 
+                                                            </p> &nbsp;
+                                                            <a className="text-[1.4rem] font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                            <a className="text-[1.4rem] font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                            <a className="text-[1.4rem] font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                        </span>
+                                                    )
+                                                }
+
+                                        </div>
+                                        <Tabs defaultValue="Details" className="w-full border mt-4">
+                                            <TabsList className="flex w-full justify-start border-b-[1px] rounded-none p-0">
+                                                <TabsTrigger value="Details" className={`border-r-[1px] py-5 h-full px-6 ${selectedTab  === 'Details' ? 'bg-primary text-white' : ''}`} onClick={() =>setSelectedTab('Details')}>
+                                                    <span>
+                                                        <p>Details</p>
+                                                    </span>
+                                                </TabsTrigger>
+                                                <TabsTrigger value="Map" className={`border-r-[1px] py-5 h-full px-6 ${selectedTab  === 'Map' ? 'bg-primary text-white' : ''}` }  onClick={() =>setSelectedTab('Map')}>
+                                                    <span>
+                                                        <p>Map</p>
+                                                    </span>
+                                                </TabsTrigger>
+                                                <TabsTrigger value="Street View" className={`border-r-[1px] py-5 h-full px-6 ${selectedTab  === 'Street View' ? 'bg-primary text-white' : ''}`}  onClick={() =>setSelectedTab('Street View')}>
+                                                    <span>
+                                                        <p>Street View</p>
+                                                    </span>
+                                                </TabsTrigger>
+                                               
+                                            </TabsList>
+                                            <TabsContent value="Details">
+                                           
+                                                <Card className='border-none'>
+                                                <CardHeader>
+                                                    <CardTitle>Property Description</CardTitle>
+                                                    <CardDescription>
+                                                        {data?.descriptions}
+                                                    </CardDescription>
+                                                </CardHeader>
+                                                <CardContent className="space-y-2">
+                                                    <div className='bg-[#F3F3F4] p-3'>
+                                                        <div className='flex justify-between items-center'>
+                                                            <p className='font-bold mb-3 '>Property Details</p>
+                                                        
+                                                        </div>
+                                                        <div>
+                                                        <table className="table-auto w-full">
+                                                            <tbody className='border border-[1px]'>
+                                                                <tr className='py-3 h-10 bg-gray-300'>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Property Ref: <span className='font-[400]'>{data.property_ref}</span></td>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Agent Name: <span className='font-[400]'>{data.agent.name}</span></td>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Address: <span className='font-[400]'>{data.address}</span></td>
+                                                                </tr>
+                                                                
+                                                                <tr className='py-3 h-10 '>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Type: <span className='font-[400]'>{data._type}</span></td>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Date created: <span className='font-[400]'>{formatReadableDate(data.created_at)}</span></td>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Agent Contact: <span className='font-[400]'>{data?.agent?.phone ? (data?.agent?.phone) : ('N/A')}</span></td>
+                                                                </tr>
+
+                                                                <tr className='py-3 h-10 bg-gray-300'>
+                                                                <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Verification Status: <span className='font-[400]'><Link href={'/'}>{data?.agent?.is_verified ? 'Verified agent' : 'Not Verified Agent'}</Link></span></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                                </tr>
+                                                                
+                                                            
+                                                            </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                        <p className='text-primary text-sm text-muted-foreground'></p>
+                                                    </div>
+                                                    <div>
+                                                        <Link className='text-primary text-sm text-muted-foreground underline' href={'/'}>View More property Listings from this publisher</Link>
+                                                    </div>
+                                                </CardContent>
+                                                </Card>
+                                            </TabsContent>
+                                            <TabsContent value="Map">
+                                                <Card className='border-none'>
+                                                    <Image src={"/images/GoogleMapTA.webp"} className='w-full object-cover' height={500} width={500} alt='map'/>
+                                                </Card>
+                                            </TabsContent>
+                                            <TabsContent value="Street View">
+                                                <Card className='border-none'>
+                                                    <Image src={"/images/street view.jpg"} className='w-full object-cover' height={500} width={500} alt='map'/>
+                                                </Card>
+                                            </TabsContent>
+                                        </Tabs>
+                                     
+
+                                </div>
+                                <div className='w-full' >
+                                    <div className='hidden md:block shadow-xl'>
+                                    <div>
+                                        <div className='bg-[#79007B] p-3 '>
+                                            <p className='text-[#FBFBFC] text-center'>Sell, Rent or Buy a property now</p>
+                                        </div>
+                                        <div className='p-6 space-y-6'>
+                                            <div className='flex justify-between items-center'>
+                                                <button>Buy</button>
+                                                <button>Rent</button>
+                                                <button>Sell</button>
                                             </div>
 
-                                            <div className='flex gap-4 w-full'>
-                                                <div className='flex-1'>
+                                            <div>
+                                                <input className='p-2 border w-full rounded-md outline-none' type="text" placeholder='Enter a location' />
+                                            </div>
+
+                                            <div className='space-y-4'>
+                                                <div>
                                                     <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
                                                         <option value="">Hello</option>
                                                         <option value="">Hello</option>
                                                         <option value="">Hello</option>
                                                     </select>
-                                                </div>                                    
-                                                <div className='flex-1'>
+                                                </div>
+                                                <div>
                                                     <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
                                                         <option value="">Hello</option>
                                                         <option value="">Hello</option>
                                                         <option value="">Hello</option>
                                                     </select>
-                                                </div>                                    
+                                                </div>
+                                                <div>
+                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <select className='p-2 border w-full rounded-md outline-none' name="" id="">
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <select className='p-2 border w-full rounded-md outline-none' name="" id="">
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <select className='p-2 border w-full rounded-md outline-none' name="" id="">
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                        <option value="">Hello</option>
+                                                    </select>
+                                                </div>
+
+                                                <div className='flex gap-4 w-full'>
+                                                    <div className='flex-1'>
+                                                        <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                        <select className='p-2 border w-full rounded-md outline-none' name="" id="">
+                                                            <option value="">Hello</option>
+                                                            <option value="">Hello</option>
+                                                            <option value="">Hello</option>
+                                                        </select>
+                                                    </div>                                    
+                                                    <div className='flex-1'>
+                                                        <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                        <select className='p-2 border w-full rounded-md outline-none' name="" id="">
+                                                            <option value="">Hello</option>
+                                                            <option value="">Hello</option>
+                                                            <option value="">Hello</option>
+                                                        </select>
+                                                    </div>                                    
+                                                </div>
+
+                                                <PryButton type='submit' width={'100%'} name={'Search'} />
+
                                             </div>
-
-                                            <PryButton type='submit' width={'100%'} name={'Search'} />
-
                                         </div>
                                     </div>
                                 </div>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* SIMILAR PROPERTIES */}
-                        <div className='pt-10 pb-6'>
-                            <div className='py-3rem space-y-5'>
-                                <HeaderTextSM align={'left'} text={'Similar Properties'} />
+                            {/* SIMILAR PROPERTIES */}
+                            <div className='pt-10 pb-6'>
+                                <div className='py-3rem space-y-5'>
+                                    <HeaderTextSM align={'left'} text={'Similar Properties'} />
 
-                                {data.length > 0 ? (
-                                    <GridContainer5>
-                                    {data.slice(0, 5)?.map((apt: any, ind: number) => (
-                                        <ApartmentShortCards
-                                        key={ind}
-                                        img={apt.pictures}
-                                        location={apt.short_address}
-                                        price={apt.f_price}
-                                        title={apt.title}
-                                        like={apt.like}
-                                        type={apt.category}
-                                        agent={apt.agent.name}
-                                        />
-                                    ))}
-                                    </GridContainer5>
-                                ) : data.length === 0 ? (
-                                    <h1>No Result Found</h1>
-                                ) : (
-                                    <h1>Loading Apartments....</h1>
-                                )}
-                                </div>
-                        </div>
+                                    {/* {data.length > 0 ? ( */}
+                                    {staticData.length > 0 ? (
+                                        <GridContainer5>
+                                        {staticData.slice(0, 5)?.map((apt: any, ind: number) => (
+                                            <ApartmentShortCards
+                                            key={ind}
+                                            img={apt.image}
+                                            location={apt.location}
+                                            price={apt.price}
+                                            title={apt.title}
+                                            like={apt.like}
+                                            type={apt.category}
+                                            agent={apt.agent}
+                                            />
+                                        ))}
+                                        </GridContainer5>
+                                    ) : data.length === 0 ? (
+                                        <h1>No Result Found</h1>
+                                    ) : (
+                                        <h1>Loading Apartments....</h1>
+                                    )}
+                                    </div>
+                            </div>
 
-                        {/* PROPERTIES AROUND LOCATION*/}
-                        <div className='pt-10 pb-6'>
-                            <div className='py-3rem space-y-5'>
-                                <HeaderTextSM align={'left'} text={'Properties in and around the same location.'} />
+                            {/* PROPERTIES AROUND LOCATION*/}
+                            <div className='pt-10 pb-6'>
+                                <div className='py-3rem space-y-5'>
+                                    <HeaderTextSM align={'left'} text={'Properties in and around the same location.'} />
 
-                                {data.length > 0 ? (
-                                    <GridContainer5>
-                                    {data.slice(0, 5)?.map((apt: any, ind: number) => (
-                                        <ApartmentShortCards
-                                        key={ind}
-                                        img={apt.pictures}
-                                        location={apt.short_address}
-                                        price={apt.f_price}
-                                        title={apt.title}
-                                        like={apt.like}
-                                        type={apt.category}
-                                        agent={apt.agent.name}
-                                        />
-                                    ))}
-                                    </GridContainer5>
-                                ) : data.length === 0 ? (
-                                    <h1>No Result Found</h1>
-                                ) : (
-                                    <h1>Loading Apartments....</h1>
-                                )}
-                                </div>
+                                    {staticData.length > 0 ? (
+                                        <GridContainer5>
+                                        {staticData.slice(0, 5)?.map((apt: any, ind: number) => (
+                                            <ApartmentShortCards
+                                            key={ind}
+                                            img={apt.image}
+                                            location={apt.location}
+                                            price={apt.price}
+                                            title={apt.title}
+                                            like={apt.like}
+                                            type={apt.category}
+                                            agent={apt.agent}
+                                            />
+                                        ))}
+                                        </GridContainer5>
+                                    ) : data.length === 0 ? (
+                                        <h1>No Result Found</h1>
+                                    ) : (
+                                        <h1>Loading Apartments....</h1>
+                                    )}
+                                    </div>
+                            </div>
                         </div>
                     </div>  
                 )
@@ -279,7 +450,7 @@ const PropertyView = ({params}:pageProp) => {
             }
         
             
-        </Container>        
+        </div>        
     </div>
 
 
