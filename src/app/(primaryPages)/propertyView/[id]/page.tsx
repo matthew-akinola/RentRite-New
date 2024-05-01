@@ -35,6 +35,8 @@ import {
     TabsList,
     TabsTrigger,
   } from "@/components/ui/tabs"
+import MultimediaModal from '@/components/shared/multimediaModal'
+import { staticData } from './data'
 
 
 interface pageProp{
@@ -49,16 +51,27 @@ const PropertyView = ({params}:pageProp) => {
     // const [similar, setData] = useState<any>({})
     const [showContacts, setShowContacts] = useState<boolean>(false)
     const [selectedTab, setSelectedTab] = useState('Details');
+    const [isMutiMediaModalOpen, setMutiMediaModalOpen] = useState(false)
 
     useEffect(()=>{
-      setData((myData))
+      // update the media
+      let tempData : DynamicObject = []
+      if(Object.values(myData).length > 0) {
+          tempData = {
+           ...myData,
+           videos: [
+               'https://static.vecteezy.com/system/resources/previews/002/410/964/mp4/several-prismatic-bokeh-flickering-video.mp4'
+           ]
+         }
+      }
+      setData(tempData)
     },[myData])
 
 
     const router = useRouter();
 
 
-    console.log(data)
+    
 
       
   return (
@@ -72,6 +85,8 @@ const PropertyView = ({params}:pageProp) => {
                     </div> 
                 ): (
                     <div className='w-full flex justify-center flex-col items-center'>
+                        <MultimediaModal isOpen={isMutiMediaModalOpen} onClose={() => setMutiMediaModalOpen(false)} data={data} />
+
                         <div className='bg-gray-200 w-full flex justify-center'>
                             <div className='container relative w-full py-2 max-w-[1700px] overflow-x-hidden px-[1.5rem] md:px-[3.5rem] lg:px-[5rem] xl:px-[7.5rem]'>
                                 <p className='text-[1.5rem] font-[500]'>
@@ -96,28 +111,18 @@ const PropertyView = ({params}:pageProp) => {
                                                 <p className='text-[#8F2A91] text-[20px] font-[700]'>₦ {data?.f_price}</p>
                                             </div>
                                             <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-0'>
-                                                <small className='font-[400] text-[14px] text-gray-500 flex gap-x-3 mb-2'>
+                                                {/* <small className='font-[400] text-[14px] text-gray-500 flex gap-x-3 mb-2'>
                                                     <MapPin />
                                                     {data?.address}, {data?.state}.
-                                                </small>
+                                                </small> */}
                                                 {/* <small>{data?.clicks} clicks | Save | Share</small> */}
                                             </div>
                                         </div>
                                         <div className='flex flex-col lg:flex-row gap-1 w-full '>
                                             <ImageGrid
-                                                data={
-                                                    {
-                                                        pictures: [
-                                                            // data.pictures.map((image : string) => {
-                                                            //     {images: image}
-                                                            // })
-                                                            {images: data?.pictures[0].image},
-                                                            {images: data?.pictures[1].image},
-                                                            {images: data?.pictures[2].image},
-                                                            {images: data?.pictures[3].image},
-                                                        ]
-                                                    }
-                                                } 
+                                                data={data}
+                                                isMutiMediaModalOpen={isMutiMediaModalOpen}
+                                                setMutiMediaModalOpen={setMutiMediaModalOpen}
                                             />
                                             {/* <div className='flex md:flex-col flex-row gap-1 md:w-[30%] h-full'>
                                                 {
@@ -385,18 +390,19 @@ const PropertyView = ({params}:pageProp) => {
                                 <div className='py-3rem space-y-5'>
                                     <HeaderTextSM align={'left'} text={'Similar Properties'} />
 
-                                    {data.length > 0 ? (
+                                    {/* {data.length > 0 ? ( */}
+                                    {staticData.length > 0 ? (
                                         <GridContainer5>
-                                        {data.slice(0, 5)?.map((apt: any, ind: number) => (
+                                        {staticData.slice(0, 5)?.map((apt: any, ind: number) => (
                                             <ApartmentShortCards
                                             key={ind}
-                                            img={apt.pictures}
-                                            location={apt.short_address}
-                                            price={apt.f_price}
+                                            img={apt.image}
+                                            location={apt.location}
+                                            price={apt.price}
                                             title={apt.title}
                                             like={apt.like}
                                             type={apt.category}
-                                            agent={apt.agent.name}
+                                            agent={apt.agent}
                                             />
                                         ))}
                                         </GridContainer5>
@@ -413,18 +419,18 @@ const PropertyView = ({params}:pageProp) => {
                                 <div className='py-3rem space-y-5'>
                                     <HeaderTextSM align={'left'} text={'Properties in and around the same location.'} />
 
-                                    {data.length > 0 ? (
+                                    {staticData.length > 0 ? (
                                         <GridContainer5>
-                                        {data.slice(0, 5)?.map((apt: any, ind: number) => (
+                                        {staticData.slice(0, 5)?.map((apt: any, ind: number) => (
                                             <ApartmentShortCards
                                             key={ind}
-                                            img={apt.pictures}
-                                            location={apt.short_address}
-                                            price={apt.f_price}
+                                            img={apt.image}
+                                            location={apt.location}
+                                            price={apt.price}
                                             title={apt.title}
                                             like={apt.like}
                                             type={apt.category}
-                                            agent={apt.agent.name}
+                                            agent={apt.agent}
                                             />
                                         ))}
                                         </GridContainer5>
