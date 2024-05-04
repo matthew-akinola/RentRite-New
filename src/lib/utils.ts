@@ -122,3 +122,19 @@ export function formatReadableDate(isoDateString: string): string {
   return dateFormatter.format(date);
 }
 
+export function formatDate(isoDateString: string): string {
+  const date = new Date(isoDateString);
+
+  // Configure the dateFormatter for numeric year, month, and day
+  const dateFormatter = new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  });
+
+  // Format the date
+  const formattedDate = dateFormatter.format(date);
+
+  // Replace slashes or other delimiters with " - "
+  return formattedDate.replace(/\//g, ' - ');
+}
