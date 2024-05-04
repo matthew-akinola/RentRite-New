@@ -85,7 +85,7 @@ export const ApartmentShortCards: React.FC<ApartmentCardsProps> = ({ img, locati
         <img className='rounded-[18px] w-full h-[270px] object-cover' src={img} alt={title} />
       </div>
       <div className='flex  w-full'>
-        <div className='flex flex-col w-full justify-between items-center'>
+        <div className='flex flex-col w-full justify-between items-start'>
           <p className='font-[500] text-[15px] text-[#2B2A30]'>{title}</p>
           <p className='font-[400] text-[14px] text-[#565560]'>{location}</p>
           <p className='font-[500] text-[15px] text-[#2B2A30]'>Agent: {agent}</p>

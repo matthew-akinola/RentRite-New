@@ -64,6 +64,7 @@ function ImageGrid({ data , setMutiMediaModalOpen, isMutiMediaModalOpen} : iProp
     console.log(multimedia)
 
     const isVideo = (url: string) => {
+        console.log(url)
         return url?.match(/\.(mp4|webm)$/i);
       };
 
