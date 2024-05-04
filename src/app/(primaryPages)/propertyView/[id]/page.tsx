@@ -5,14 +5,14 @@ import {  ApartmentShortCards } from '@/components/shared/others/cards'
 import { HeaderTextSM } from '@/components/shared/typographs/Typo'
 import useFetch from '@/hooks/useFetch'
 import { useFetchApartment } from '@/hooks/useFetchApartment'
-import { formatReadableDate, isEmpty } from '@/lib/utils'
+import { formatDate, formatReadableDate, isEmpty } from '@/lib/utils'
 import { DynamicObject } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from 'react'
 import Spinner from "@/components/shared/Spinner";
-import { ChevronLeft, MapPin } from 'lucide-react'
+import { Bookmark, ChevronLeft, MapPin, Phone, Share2, TicketCheck, UserRound } from 'lucide-react'
 import ImageGrid from '@/components/shared/ImageGrid'
 import { CiDiscount1, CiHeart } from 'react-icons/ci'
 import { MdOutlineBedroomChild } from 'react-icons/md'
@@ -37,6 +37,8 @@ import {
   } from "@/components/ui/tabs"
 import MultimediaModal from '@/components/shared/multimediaModal'
 import { staticData } from './data'
+import MultiMediaGrid from '@/components/shared/MultimediaGrid'
+import SocialMediaPopup from '@/components/shared/SocialMediaPopupProps'
 
 
 interface pageProp{
@@ -52,6 +54,10 @@ const PropertyView = ({params}:pageProp) => {
     const [showContacts, setShowContacts] = useState<boolean>(false)
     const [selectedTab, setSelectedTab] = useState('Details');
     const [isMutiMediaModalOpen, setMutiMediaModalOpen] = useState(false)
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => setShowPopup(!showPopup);
+
 
     useEffect(()=>{
       // update the media
@@ -110,20 +116,36 @@ const PropertyView = ({params}:pageProp) => {
                                                 <p className='text-[18px] md:text-[24px] font-[700] text-[#161518]'>{data?.title}</p>
                                                 <p className='text-[#8F2A91] text-[20px] font-[700]'>₦ {data?.f_price}</p>
                                             </div>
-                                            <div className='flex flex-col md:flex-row justify-between md:items-center mt-4 md:mt-0'>
-                                                {/* <small className='font-[400] text-[14px] text-gray-500 flex gap-x-3 mb-2'>
-                                                    <MapPin />
-                                                    {data?.address}, {data?.state}.
-                                                </small> */}
-                                                {/* <small>{data?.clicks} clicks | Save | Share</small> */}
+                                            <div className='flex justify-between mt-4 md:mt-0 relative items-center mt-3'>
+                                                <div className='flex gap-3 '>
+                                                    <span className='undeline text-primary'>
+                                                        Schedule a tour
+                                                    </span>|
+                                                    <span className='underline text-[#D97706]'>Report Listing</span>
+                                                </div>
+                                                
+                                                <small className="flex gap-2">
+                                                    <p>
+                                                        {data?.clicks} clicks
+                                                    </p>
+                                                    |<p className='flex gap-2 items-center'> <Bookmark className='text-sm h-4 w-4' /> <span className="underline">Save</span> </p>
+                                                    |<p className='flex gap-2 items-center cursor-pointer'  onClick={togglePopup}> <Share2 className='text-sm h-4 w-4' /> <span className="underline">Share</span> </p>
+                                                    {showPopup && <SocialMediaPopup closePopup={togglePopup} />}
+                                                </small>
                                             </div>
                                         </div>
                                         <div className='flex flex-col lg:flex-row gap-1 w-full '>
-                                            <ImageGrid
+                                            {/* <ImageGrid
+                                                data={data}
+                                                isMutiMediaModalOpen={isMutiMediaModalOpen}
+                                                setMutiMediaModalOpen={setMutiMediaModalOpen}
+                                            /> */}
+                                            <MultiMediaGrid
                                                 data={data}
                                                 isMutiMediaModalOpen={isMutiMediaModalOpen}
                                                 setMutiMediaModalOpen={setMutiMediaModalOpen}
                                             />
+
                                             {/* <div className='flex md:flex-col flex-row gap-1 md:w-[30%] h-full'>
                                                 {
                                                     data?.pictures[0] && (
@@ -153,46 +175,68 @@ const PropertyView = ({params}:pageProp) => {
                                             </div> */}
                                         </div>
                                         {/* <ImListNumbered /> */}
-                                        {
-                                            Object.values(data.specifications).length > 0 && (
-                                                <div className='border mt-3 flex '>
-                                                    {
-                                                            Object.entries(data.specifications).map(([key, value] : any, index : number) => {
-                                                                const width = 100/Object.values(data.specifications).length
-                                                                const icon = (value: string ) => {
-                                                                    const dIcon : Record<string, React.ReactNode> = {
-                                                                        size: <TbDiscount2 className='text-[1.5rem] text-gray-500'/>, 
-                                                                        toilets: <FaToiletPaper className='text-[1.5rem] text-gray-500' />,
-                                                                        bedrooms: <MdOutlineBedroomChild className='text-[1.5rem] text-gray-500' />,
-                                                                        bathrooms: <FaBath className='text-[1.5rem] text-gray-500'/>,
-                                                                    }
-                                                                    return dIcon[value]
-                                                                }
-                                                                return(
-                                                                    <div className={`flex flex-col justify-center items-center py-3 ${index !== Object.entries(data.specifications).length - 1 ? 'border-r' : ''}`} key={index} style={{
-                                                                        width: `${width}%`
-                                                                    }}>
-                                                                        <span>{icon(key)}</span>
-                                                                        <span className='flex items-center '>
-                                                                            <p className='capitalize'>{key}</p>:<p className='font-[500] text-[1rem] ml-2'>{value}</p>
-                                                                        </span>
-                                                                    </div>
-                                                                )
-                                                            })
+                                        <div className='flex items-center  py-3 flex-wrap'>
+                                            {
+                                                Object.values(data.specifications).length > 0 && (
+                                                    <div className=' flex '>
+                                                        {
+                                                                Object.entries(data.specifications).map(([key, value] : any, index : number) => {
+                                                                    const width = 100/Object.values(data.specifications).length
+                                                                
+                                                                    return(
+                                                                        <div className={`flex gap-1 justify-center items-center`} key={index} >
+                                                                            <span className='flex items-center '>
+                                                                            <p className='font-[500] text-[1rem]'>{value}</p>&nbsp;
+                                                                            <p className='capitalize'>{key}</p>
+                                                                            </span> 
+                                                                            {(index !== Object.entries(data.specifications).length - 1 )? (
+                                                                                <span>
+                                                                                    <svg width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                                    <circle cx="2" cy="2" r="2" fill="black"/>
+                                                                                    </svg>
+                                                                                </span> 
+                                                                            ) :(
+                                                                                <span></span>
+                                                                            )}
+                                                                            {index !== Object.entries(data.specifications).length - 1 ? (
+                                                                                <span>&nbsp;</span>
+                                                                            ): (
+                                                                                <span></span>
+                                                                            )}
+                                                                        </div>
+                                                                    )
+                                                                })
 
-                                                    }
-                                                    </div>
+                                                        }
+                                                        </div>
 
-                                            )
-                                        }
-
-                                        <div className='border py-3 mt-4 border-[1px] border-gray-300 w-full flex items-center justify-center'>
-                                            <span className='flex text-red-400 items-center'>
-                                                <CiHeart className='text-[1.3rem] mr-4'/>
-                                                <p>Save</p>
+                                                )
+                                            }
+                                            <span className='gap-1 flex items-center flex-wrap'>
+                                                | 
+                                                <p className='font-bold'>Serviced</p>
+                                                |
+                                                <p className='font-bold'>Not Furnished</p>
                                             </span>
                                         </div>
-                                        <div className=' py-3 mt-4 bg-gray-200 w-full flex flex-col items-center justify-center'>
+                                        <div className='flex items-center gap-2 flex-wrap'>
+                                           <span className="flex items-center">
+                                                <p className='font-bold'>Property Type: </p>&nbsp;
+                                                <p>{data.category}</p>
+                                           </span>
+                                           <span className="flex items-center">
+                                                <p className='font-bold'>Date Created: </p>&nbsp;
+                                                <p>{formatDate(data.created_at)}</p>
+                                           </span>
+                                           <span className="flex items-center">
+                                                <p className='font-bold'>Date Updated: </p>&nbsp;
+                                                <p>{formatDate(data.updated_at)}</p>
+                                           </span>
+                                          
+                                        </div>
+
+                                       
+                                        {/* <div className=' py-3 mt-4 bg-gray-200 w-full flex flex-col items-center justify-center'>
                                             <p>Interested in this Property?</p>
                                                 {
                                                     !showContacts ? (
@@ -215,7 +259,7 @@ const PropertyView = ({params}:pageProp) => {
                                                     )
                                                 }
 
-                                        </div>
+                                        </div> */}
                                         <Tabs defaultValue="Details" className="w-full border mt-4">
                                             <TabsList className="flex w-full justify-start border-b-[1px] rounded-none p-0">
                                                 <TabsTrigger value="Details" className={`border-r-[1px] py-5 h-full px-6 ${selectedTab  === 'Details' ? 'bg-primary text-white' : ''}`} onClick={() =>setSelectedTab('Details')}>
@@ -239,19 +283,49 @@ const PropertyView = ({params}:pageProp) => {
                                            
                                                 <Card className='border-none'>
                                                 <CardHeader>
-                                                    <CardTitle>Property Description</CardTitle>
+                                                    <CardTitle className='flex justify-between mb-5'>
+                                                        <span>Property Details</span>
+                                                        
+                                                    </CardTitle>
                                                     <CardDescription>
                                                         {data?.descriptions}
                                                     </CardDescription>
                                                 </CardHeader>
                                                 <CardContent className="space-y-2">
+                                                   
                                                     <div className='bg-[#F3F3F4] p-3'>
                                                         <div className='flex justify-between items-center'>
-                                                            <p className='font-bold mb-3 '>Property Details</p>
-                                                        
+                                                            <p className='font-bold mb-3 '>Listed by</p>
+                                                            <Link className='text-primary text-sm text-muted-foreground underline' href={`/propertyView/publisher/${data.agent.name}`}>View More property Listings from this publisher</Link>
                                                         </div>
+                                                        <p><span className='font-[700] text-sm'>{}</span></p>
+                                                        <p className='flex gap-2 mt-2'><MapPin className='w-4 h-4' /><span className='font-[400] text-sm'>{data.address}</span></p>
+                                                        <p className='flex gap-2 mt-2 items-center'><Phone className='w-4 h-4' /><span className='font-[400] text-sm flex items-center'>
+                                                        {
+                                                            !showContacts ? (
+                                                                <span className='flex items-center'>
+                                                                    <p>Call <span className='font-[500]'>0805 XXXX</span> </p>
+                                                                    <Button className='bg-red-600 !py-1 h-8 text-white ml-3 text-sm' onClick={() => setShowContacts(true)}>
+                                                                        Show Phone
+                                                                    </Button>
+                                                                </span>
+
+                                                            ): (
+                                                                <span className='flex items-center'>
+                                                                    <p>
+                                                                        Call 
+                                                                    </p> &nbsp;
+                                                                    <a className=" font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                                    <a className=" font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                                    <a className=" font-[500]" href="tel:+2349033335459">+2349033335459</a>, &nbsp;
+                                                                </span>
+                                                            )
+                                                        }    
+                                                        </span></p>
+                                                        <p className='flex gap-2 mt-2'><UserRound className='w-4 h-4' /><span className='font-[400] text-sm'>{formatDate(data.created_at)}</span></p>
+                                                        <p className={`flex gap-2 mt-2 items-center ${data?.agent?.is_verified ? 'text-primary' : 'text-gray-400'}`}><TicketCheck className='w-4 h-4' /><span className='font-[400] text-sm'>{data?.agent?.is_verified ? 'Verified agent' : 'Not Verified Agent'}</span></p>
                                                         <div>
-                                                        <table className="table-auto w-full">
+                                                        {/* <table className="table-auto w-full">
                                                             <tbody className='border border-[1px]'>
                                                                 <tr className='py-3 h-10 bg-gray-300'>
                                                                 <td className='text-sm text-muted-foreground px-5 py-2  font-bold'>Property Ref: <span className='font-[400]'>{data.property_ref}</span></td>
@@ -273,13 +347,13 @@ const PropertyView = ({params}:pageProp) => {
                                                                 
                                                             
                                                             </tbody>
-                                                            </table>
+                                                            </table> */}
                                                         </div>
 
                                                         <p className='text-primary text-sm text-muted-foreground'></p>
                                                     </div>
                                                     <div>
-                                                        <Link className='text-primary text-sm text-muted-foreground underline' href={'/'}>View More property Listings from this publisher</Link>
+
                                                     </div>
                                                 </CardContent>
                                                 </Card>
@@ -295,7 +369,15 @@ const PropertyView = ({params}:pageProp) => {
                                                 </Card>
                                             </TabsContent>
                                         </Tabs>
-                                     
+                                        
+                                        <div className='border mt-4 bg-[#FCDFC4] w-full px-6 py-10 flex flex-col items-start justify-center'>
+                                           <h3 className='text-2xl font-semibold leading-none tracking-tight mb-6'>
+                                                Disclaimer
+                                           </h3>
+                                           <p className='text-black'>
+                                                All information displayed about this property is termed simply as a property advertisement. Rentrite and the rentrite team does not give any guarantee as to the accuracy advertisement or any linked or associated information with it. Rentrite and the Rentrite team has no control over the content posted. The property information is provided exclusively for personal, non-commercial use, and may not be used for any purpose other than to identify prospective properties consumers may be interested in purchasing. The information posted can be termed reliable, but it is not 100% guaranteed that listings will be exactly what you want. Rentrite shall not in any way be held liable for the actions of any agent and/or property owner/landlord on or off this website.
+                                           </p>
+                                        </div>
 
                                 </div>
                                 <div className='w-full' >
@@ -305,7 +387,7 @@ const PropertyView = ({params}:pageProp) => {
                                             <p className='text-[#FBFBFC] text-center'>Sell, Rent or Buy a property now</p>
                                         </div>
                                         <div className='p-6 space-y-6'>
-                                            <div className='flex justify-between items-center'>
+                                            <div className='flex justify-around items-center'>
                                                 <button>Buy</button>
                                                 <button>Rent</button>
                                                 <button>Sell</button>
@@ -319,61 +401,60 @@ const PropertyView = ({params}:pageProp) => {
                                                 <div>
                                                     <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
+                                                        <option value="">BUY</option>
+                                                        <option value="">RENT</option>
+                                                        <option value="">SALE</option>
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <p className='font-[700] text-[12px] '>BEDROOM</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
+                                                        <option value="">1 bedroom</option>
+                                                        <option value="">2 bedroom</option>
+                                                        <option value="">3 bedroom</option>
+                                                        <option value="">4 bedroom</option>
+                                                        <option value="">5 bedroom</option>
+                                                        <option value="">6 bedroom</option>
+                                                        <option value="">7 bedroom</option>
+                                                        <option value="">8 bedroom</option>
+                                                        <option value="">9 bedroom</option>
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <p className='font-[700] text-[12px] '>SERVICED</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
+                                                        <option value="">Any</option>
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <p className='font-[700] text-[12px] '>FURNISHED</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
+                                                        <option value="">Any</option>
                                                     </select>
                                                 </div>
                                                 <div>
-                                                    <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
+                                                    <p className='font-[700] text-[12px] '>SHARED</p>
                                                     <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                        <option value="">Hello</option>
-                                                    </select>
+                                                        <option value="">Any</option>
+\                                                    </select>
                                                 </div>
 
                                                 <div className='flex gap-4 w-full'>
-                                                    <div className='flex-1'>
-                                                        <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                        <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                            <option value="">Hello</option>
-                                                            <option value="">Hello</option>
-                                                            <option value="">Hello</option>
-                                                        </select>
-                                                    </div>                                    
-                                                    <div className='flex-1'>
-                                                        <p className='font-[700] text-[12px] '>PROPERTY TYPE</p>
-                                                        <select className='p-2 border w-full rounded-md outline-none' name="" id="">
-                                                            <option value="">Hello</option>
-                                                            <option value="">Hello</option>
-                                                            <option value="">Hello</option>
-                                                        </select>
-                                                    </div>                                    
+                                                    <div className='w-full'>
+                                                        <p className='font-[700] text-[12px] '>ENTER KEYWORDS</p>
+                                                        <input className='p-2 border w-full rounded-md outline-none' type="text" placeholder='e.g “airport”, “gym” or “shop”' />
+                                                    </div>            
+                                                </div>
+
+                                                <div className='flex gap-4 w-full'>
+                                                    <div className='w-[50%]'>
+                                                        <p className='font-[700] text-[12px] '>MIN PRICE</p>
+                                                        <input className='p-2 border w-full rounded-md outline-none' type="text" placeholder='Enter Amount' />
+                                                    </div>            
+                                                    <div className='w-[50%]'>
+                                                        <p className='font-[700] text-[12px] '>MAX PRICE</p>
+                                                        <input className='p-2 border w-full rounded-md outline-none' type="text" placeholder='Enter Amount' />
+                                                    </div>            
                                                 </div>
 
                                                 <PryButton type='submit' width={'100%'} name={'Search'} />
